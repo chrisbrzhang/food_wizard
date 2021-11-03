@@ -13,8 +13,11 @@
   <body>
       <div class='container'>
         <form>
+          <h1> Ingredients List </h1>
+            <ol id="list_of_ingredients"></ol>
             <textarea id="ingredients_area"></textarea>
-            <button type="submit" onclick="api_find_by_ingredients()"> SUBMIT BUTTON</button>
+            <button type="button" onclick="add_ingredients()"> Add Ingredient</button>
+            <button type="submit"  onclick="get_recipes()"> GET RECIPES</button>
         </form>
         <form>
             <textarea id="recipe"></textarea>
