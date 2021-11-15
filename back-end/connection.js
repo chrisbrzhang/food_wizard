@@ -21,6 +21,43 @@ con.connect((err) => {
     console.log("Connected!");
 });
 
+const createUserTableQuery = [
+    'CREATE TABLE IF NOT EXISTS User',
+    '(Username VARCHAR(50) NOT NULL PRIMARY KEY,',
+    'Password VARCHAR(100) NOT NULL);'
+].join(' ');
+
+con.query(createUserTableQuery, (err, result) => {
+    if (err) console.log(err.message);
+    console.log('User table created.');
+});
+
+const createSavedRecipeTableQuery = [
+    'CREATE TABLE IF NOT EXISTS SavedRecipe',
+    '(Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,',
+    'RecipeId INT NOT NULL,',
+    'Username VARCHAR(50) NOT NULL,',
+    'FOREIGN KEY (Username) REFERENCES User(Username));'
+].join(' ');
+
+con.query(createSavedRecipeTableQuery, (err, result) => {
+    if (err) console.log(err.message);
+    console.log('SavedRecipe table created.');
+});
+
+const createUserIngredientTableQuery = [
+    'CREATE TABLE IF NOT EXISTS UserIngredient',
+    '(Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,',
+    'IngredientId INT NOT NULL,',
+    'Username VARCHAR(50) NOT NULL,',
+    'FOREIGN KEY (Username) REFERENCES User(Username));'
+].join(' ');
+
+con.query(createUserIngredientTableQuery, (err, result) => {
+    if (err) console.log(err.message);
+    console.log('UserIngredient table created.');
+});
+
 const createRecipeTableQuery = [
     'CREATE TABLE IF NOT EXISTS Recipe',
     '(Id INT NOT NULL PRIMARY KEY,',
@@ -51,5 +88,7 @@ con.query(createIngredientTableQuery, (err, result) => {
     if (err) console.log(err.message);
     console.log('Ingredient table created.');
 });
+
+
 
 module.exports = con;
