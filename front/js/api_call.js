@@ -3,7 +3,13 @@ const xhttp = new XMLHttpRequest();
 const get = "GET";
 const post = "POST"
 const resource="&ingredients=";
+const API_KEY = "c0c634289d2a4a2590b2eaa4abf5f6aa";
+const axios = require('axios');
 // test out https://api.spoonacular.com/recipes/findByIngredients?apiKey=c0c634289d2a4a2590b2eaa4abf5f6aa&ingredients=apples in your url to get json respone
+
+let promise = new Promise((resolve, reject) => {
+
+})
 
 function get_recipes() {
 
@@ -11,21 +17,30 @@ function get_recipes() {
     let list = query_ol()
     console.log(list)
     if (list.length < 3) {
-        alert("Please insert more ingredients")
+        alert("Please insert more ingredients");
         // return
     }
-    let query_param = list.join(",+")
-    console.log(query_param)
-    // for (let i = 0; i < list.length; i++) {
-    //     console.log(list[i].innerHTML)
-    // }
+    let query_param = list.join(",+");
+    query_param = query_param.toLowerCase();
+    console.log(query_param);
 
-    // xhttp.open(get, url +API_KEY + resource+ ingredient, true);
+
+
+    axios.get(url +API_KEY + resource + ingredient + query_param)
+    .then((reponse) => console.log(reponse))
+    .catch((error) => console.log(error));
+
+
+
+    // xhttp.open(get, url +API_KEY + resource + ingredient + query_param);
     // xhttp.send();
     // xhttp.onreadystatechange = function() {
     //     if (this.readyState == 4 && this.status == 200) {
     //         console.log(this.responseText);
-    //         document.getElementById("recipe").innerHTML = this.responseText;
+    //         // document.getElementById("recipe").innerHTML = this.responseText;
+    //     }
+    //     else {
+    //         console.log(this.readyState, this.status)
     //     }
     // }
 }
