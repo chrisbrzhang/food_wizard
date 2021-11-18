@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import {Helmet} from "react-helmet";
-import axios from 'axios';
+// import {Helmet} from "react-helmet";
+// import axios from 'axios';
 
 const HomePage = () => {
     const [URL] = useState('https://api.spoonacular.com/recipes/findByIngredients?apiKey=')
@@ -23,10 +23,32 @@ const HomePage = () => {
         query_param = query_param.toLowerCase();
         console.log(query_param);
         console.log(URL + API_KEY + RESOURCE + ingredient + query_param)
-    
-        axios.get(URL + API_KEY + RESOURCE + ingredient + query_param)
-        .then((reponse) => console.log(reponse.data))
-        .catch((error) => {console.log(error)});
+        // lets use this api for now so we dont overload our thing
+        axios.get("https://api4all.azurewebsites.net/api/Students")
+        .then((response) => {
+            new_Recipe(response.data)
+            console.log(response.data)})
+        .catch((error) => {console.log(error, "ERRORS BRUHHH")});
+    }
+    const new_Recipe = (res) => {
+        let big_div = document.getElementById('recipes')
+        if (res.length > 1) {
+            res.forEach(element => {
+                console.log(element.studentId)
+                let div = React.createElement('div',
+                {
+                    className: "container"
+                });
+        
+                let textArea = React.createElement('textarea',
+                {},
+                element.studentId
+                );
+                div.append(textArea)
+                big_div.append(div)
+            })
+        }
+
     }
     // returns a list of nodes containing all li tags
     const query_ol = () => {
@@ -63,13 +85,9 @@ const HomePage = () => {
             <ol id="list_of_ingredients"></ol>
             <textarea id="ingredients_area"></textarea>
             <button type="button" onClick= {() => add_ingredients()}> Add Ingredient </button>
-            
+            <button type="button"  onClick= {() => get_Recipe()}> GET RECIPES </button>
         </form>
-        <form>
-            <textarea id="recipe"></textarea>
-            <button type="submit"  onClick= {() => get_Recipe()}> GET RECIPES </button>
-        </form>
-        
+        <div id="recipes"></div>
     </div>
     </React.Fragment>)
 };
