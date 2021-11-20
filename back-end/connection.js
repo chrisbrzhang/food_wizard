@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const q = require('./constants/database');
 
 // These are the credentials used to connect to the MySQL database on our a2hosting account
 // const con = mysql.createConnection({
@@ -30,17 +31,10 @@ con.promise = (sql) => {
     });
 }
 
-
 //####################################################################
 // Create User table.
 //####################################################################
-const createUserTableQuery = [
-    'CREATE TABLE IF NOT EXISTS User',
-    '(Username VARCHAR(50) NOT NULL PRIMARY KEY,',
-    'Password VARCHAR(100) NOT NULL);'
-].join(' ');
-
-con.query(createUserTableQuery, (err, _) => {
+con.query(q.createUserTableQuery, (err, _) => {
     if (err) console.log(err.message);
     console.log('User table created.');
 });
@@ -48,15 +42,7 @@ con.query(createUserTableQuery, (err, _) => {
 //####################################################################
 // Create UserIngredient table.
 //####################################################################
-const createUserIngredientTableQuery = [
-    'CREATE TABLE IF NOT EXISTS UserIngredient',
-    '(Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,',
-    'Name VARCHAR(50) NOT NULL,',
-    'Username VARCHAR(50) NOT NULL,',
-    'FOREIGN KEY (Username) REFERENCES User(Username));'
-].join(' ');
-
-con.query(createUserIngredientTableQuery, (err, _) => {
+con.query(q.createUserIngredientTableQuery, (err, _) => {
     if (err) console.log(err.message);
     console.log('UserIngredient table created.');
 });
@@ -64,14 +50,7 @@ con.query(createUserIngredientTableQuery, (err, _) => {
 //####################################################################
 // Create Recipe table.
 //####################################################################
-const createRecipeTableQuery = [
-    'CREATE TABLE IF NOT EXISTS Recipe',
-    '(Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,',
-    'Title VARCHAR(100) NOT NULL,',
-    'Description VARCHAR(300) NULL DEFAULT "");'
-].join(' ');
-
-con.query(createRecipeTableQuery, (err, _) => {
+con.query(q.createRecipeTableQuery, (err, _) => {
     if (err) console.log(err.message);
     console.log('Recipe table created.');
 });
@@ -79,18 +58,7 @@ con.query(createRecipeTableQuery, (err, _) => {
 //####################################################################
 // Create RecipeIngredient table.
 //####################################################################
-const createRecipeIngredientTableQuery = [
-    'CREATE TABLE IF NOT EXISTS RecipeIngredient',
-    '(Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,',
-    'Name VARCHAR(50),',
-    'Amount NUMERIC(5,2),',
-    'Unit VARCHAR(20),',
-    'Description VARCHAR(100) NULL DEFAULT "",',
-    'RecipeId INT NOT NULL,',
-    'FOREIGN KEY (RecipeId) REFERENCES Recipe(Id));'
-].join(' ');
-
-con.query(createRecipeIngredientTableQuery, (err, result) => {
+con.query(q.createRecipeIngredientTableQuery, (err, _) => {
     if (err) console.log(err.message);
     console.log('RecipeIngredient table created.');
 });
@@ -98,16 +66,7 @@ con.query(createRecipeIngredientTableQuery, (err, result) => {
 //####################################################################
 // Create Instruction table.
 //####################################################################
-const createInstructionTableQuery = [
-    'CREATE TABLE IF NOT EXISTS Instruction',
-    '(Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,',
-    'Step INT NOT NULL,',
-    'Details VARCHAR(200) NOT NULL,',
-    'RecipeId INT NOT NULL,',
-    'FOREIGN KEY (RecipeId) REFERENCES Recipe(Id));'
-].join(' ');
-
-con.query(createInstructionTableQuery, (err, result) => {
+con.query(q.createInstructionTableQuery, (err, _) => {
     if (err) console.log(err.message);
     console.log('Instruction table created.');
 });
@@ -115,16 +74,7 @@ con.query(createInstructionTableQuery, (err, result) => {
 //####################################################################
 // Create SavedRecipe table. 
 //####################################################################
-const createSavedRecipeTableQuery = [
-    'CREATE TABLE IF NOT EXISTS SavedRecipe',
-    '(Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,',
-    'RecipeId INT NOT NULL,',
-    'Username VARCHAR(50) NOT NULL,',
-    'FOREIGN KEY (RecipeId) REFERENCES Recipe(Id),',
-    'FOREIGN KEY (Username) REFERENCES User(Username));'
-].join(' ');
-
-con.query(createSavedRecipeTableQuery, (err, result) => {
+con.query(q.createSavedRecipeTableQuery, (err, _) => {
     if (err) console.log(err.message);
     console.log('SavedRecipe table created.');
 });

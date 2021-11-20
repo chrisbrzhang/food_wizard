@@ -27,19 +27,19 @@ router.post(ROOT, (req, res) => {
         }
         res.send(output);
       } else {
-        const user = await dbFunc.checkIfUserExists(json.username);
+        const user = await dbFunc.checkIfUserExists(json.email);
 
         if (user[0]) {
           let output = { 
             "success": false,
-            "message": "That username has already been taken. Please choose a different username."
+            "message": "That email is already registered. Please choose a different email."
           }
           res.send(output);
         } else {
-          bcrypt.hash(json.password, SALTS, (err, hash) => {
+          bcrypt.hash(json.password, SALTS, (_, hash) => {
             const sqlCreateNewUser = [
-              'INSERT INTO User (Username, Password)',
-              `VALUES ('${json.username}', '${hash}');`,
+              'INSERT INTO User (Email, Password)',
+              `VALUES ('${json.email}', '${hash}');`,
             ].join(' ');
   
             con.promise(sqlCreateNewUser)
@@ -47,7 +47,7 @@ router.post(ROOT, (req, res) => {
               console.log(JSON.stringify(result, null, 1));
               let output = {
                 "success": true,
-                "message": `User "${json.username}" was successfully created.`
+                "message": `User with email "${json.email}" was successfully created.`
               }
               res.send(output);
             })
@@ -55,7 +55,7 @@ router.post(ROOT, (req, res) => {
               console.log(JSON.stringify(error, null, 1));
               let output = {
                 "success": false,
-                "message": `Unexpected error occurred while trying to create user "${json.username}".`
+                "message": `Unexpected error occurred while trying to create user "${json.email}".`
               }
               res.send(output);
             });

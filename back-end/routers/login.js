@@ -9,8 +9,8 @@ const v = require('../helpers/validate');
 const ROOT = '/';
 const tokenDuration = '7d';
 
-const getToken = (username) => {
-  return jwt.sign({ sub: username }, config.secret, {expiresIn: tokenDuration});
+const getToken = (email) => {
+  return jwt.sign({ sub: email }, config.secret, {expiresIn: tokenDuration});
 }
 
 function omitPassword(user) {
@@ -35,18 +35,17 @@ router.post(ROOT, (req, res) => {
             "success": false,
             "message": isValid[1]
           }
-          
           res.send(output);
         } else {
-          const user = await dbFunc.checkIfUserExists(json.username);
+          const user = await dbFunc.checkIfUserExists(json.email);
 
           if (user[0]) {
-            bcrypt.compare(json.password, user[1].Password, (err, result) => {
+            bcrypt.compare(json.password, user[1].Password, (_, result) => {
               if (result) {
-                let token = getToken(json.username);
+                let token = getToken(json.email);
                 let output = {
                   "success": true,
-                  "message": `You are now loggin in as ${json.username}`,
+                  "message": `You are now logged in as ${json.email}`,
                   ...omitPassword(user[1]),
                   token
                 }
@@ -54,7 +53,7 @@ router.post(ROOT, (req, res) => {
               } else {
                 let output = {
                   "success": false,
-                  "message": "The username or password you entered is incorrect."
+                  "message": "The email or password you entered is incorrect."
                 }
                 res.send(output);
               }
@@ -62,7 +61,7 @@ router.post(ROOT, (req, res) => {
           } else {
             let output = {
               "success": false,
-              "message": `There is no user by the name "${json.username}".`
+              "message": `There is no user with email "${json.email}".`
             }
             res.send(output);
           }

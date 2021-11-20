@@ -1,13 +1,13 @@
 const con = require('../connection');
 
-exports.checkIfUserExists = async (username) => {
-  let query = `SELECT * FROM User WHERE Username = '${username}';`;
+exports.checkIfUserExists = async (email) => {
+  let query = `SELECT * FROM User WHERE Email = '${email}';`;
   let arr = [];
     
   await con.promise(query)
   .then((result) => {
     if (result.length === 0) {
-      arr = [false, "There is no user with that username."];
+      arr = [false, "There is no user with that email."];
     } else {
       arr = [true, result[0]];
     }
@@ -19,8 +19,8 @@ exports.checkIfUserExists = async (username) => {
   return arr;
 }
 
-exports.checkIfRecipeAlreadySaved = async (username, recipeId) => {
-  let query = `SELECT * FROM SavedRecipe WHERE Username = '${username}' AND RecipeId = ${recipeId};`;
+exports.checkIfRecipeAlreadySaved = async (userId, recipeId) => {
+  let query = `SELECT * FROM SavedRecipe WHERE UserId = '${userId}' AND RecipeId = ${recipeId};`;
   let arr = [true, ""];
     
   await con.promise(query)
@@ -37,8 +37,8 @@ exports.checkIfRecipeAlreadySaved = async (username, recipeId) => {
   return arr;
 }
 
-exports.checkIfIngredientAlreadySaved = async (username, ingredientId) => {
-  let query = `SELECT * FROM UserIngredient WHERE Username = '${username}' AND IngredientId = ${ingredientId};`;
+exports.checkIfIngredientAlreadySaved = async (userId, ingredientId) => {
+  let query = `SELECT * FROM UserIngredient WHERE UserId = '${userId}' AND IngredientId = ${ingredientId};`;
   let arr = [true, ""];
     
   await con.promise(query)
@@ -59,16 +59,16 @@ exports.checkIfIdExistsInTable = async (id, table) => {
   console.log(table);
 
   let query = `SELECT * FROM ${table} WHERE Id = ${id};`;
-  let exists = false;
+  let msg = [false, ""];
     
   await con.promise(query)
   .then((result) => {
-    if (result.length === 0) {
-      exists = true;
+    if (result.length > 0) {
+      msg = [true, result[0]];
     }
   })
   .catch(error => {
     console.log(error.message);
   });
-  return exists;
+  return msg;
 }
