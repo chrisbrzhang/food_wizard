@@ -1,13 +1,18 @@
 const express = require('express');
+const jwt = require('./jwt/jwt');
 const PORT = 8888;
 const app = express();
 const ROOT = '/COMP4537/TermProject';
 const RECIPES = '/recipes';
 const INGREDIENTS = '/ingredients';
 const USER = '/user';
+const LOGIN = '/login';
+const REGISTER = '/register';
 const recipeRouter = require('./routers/recipes');
 const ingredientsRouter = require('./routers/ingredients');
 const userRouter = require('./routers/users');
+const loginRouter = require('./routers/login');
+const registerRouter = require('./routers/register');
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -16,6 +21,12 @@ app.use((req, res, next) => {
     // res.header('Content-Type', 'application/json');
     next();
 });
+
+app.use(jwt());
+
+app.use(ROOT + LOGIN, loginRouter);
+
+app.use(ROOT + REGISTER, registerRouter);
 
 app.use(ROOT + RECIPES, recipeRouter);
 

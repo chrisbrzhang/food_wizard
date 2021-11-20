@@ -2,111 +2,15 @@ const express = require('express');
 const router = express.Router();
 const con = require('../connection');
 const bcrypt = require('bcrypt');
-const axios = require('axios').default;
 const SALTS = 10;
+
+const dbFunc = require('../helpers/database');
 
 const ROOT = '/';
 const USERNAME = '/:username';
 const SAVED_RECIPES = '/savedrecipes';
 const INGREDIENTS = '/ingredients';
 const RECIPES = '/recipes';
-const API_KEY = '?apiKey=c0c634289d2a4a2590b2eaa4abf5f6aa';
-const MAX_RECIPE_INT = 999999999;
-
-const SPOON_API_ENDPOINT_BASE = 'https://api.spoonacular.com';
-
-con.promise = (sql) => {
-  return new Promise((resolve, reject) => {
-    con.query(sql, (err, result) => {
-      if (err) { reject(new Error()); }
-      else { resolve(result); }
-    });
-  });
-}
-
-const checkIfUserExists = async (username) => {
-  let query = `SELECT * FROM User WHERE Username = '${username}';`;
-  let arr = [];
-    
-  await con.promise(query)
-  .then((result) => {
-    if (result.length === 0) {
-      arr = [false, "There is no user with that username."];
-    } else {
-      arr = [true, result[0]];
-    }
-  })
-  .catch((error) => {
-    console.log(error.message);
-    arr = [false, error.message];
-  });
-  return arr;
-}
-
-const checkIfRecipeAlreadySaved = async (username, recipeId) => {
-  let query = `SELECT * FROM SavedRecipe WHERE Username = '${username}' AND RecipeId = ${recipeId};`;
-  let arr = [true, ""];
-    
-  await con.promise(query)
-  .then((result) => {
-    if (result.length === 0) {
-      arr = [false, "This recipe is not already saved."];
-    } else {
-      arr = [true, "This recipe has already been saved."];
-    }
-  })
-  .catch((error) => {
-    console.log(error.message);
-  });
-  return arr;
-}
-
-const checkIfIngredientAlreadySaved = async (username, ingredientId) => {
-  let query = `SELECT * FROM UserIngredient WHERE Username = '${username}' AND IngredientId = ${ingredientId};`;
-  let arr = [true, ""];
-    
-  await con.promise(query)
-  .then((result) => {
-    if (result.length === 0) {
-      arr = [false, "This ingredient is not already saved."];
-    } else {
-      arr = [true, "This ingredient has already been added to your list."];
-    }
-  })
-  .catch((error) => {
-    console.log(error.message);
-  });
-  return arr;
-}
-
-const checkIfRecipeExists = async (id) => {
-  let url = SPOON_API_ENDPOINT_BASE + `/recipes/${id}/information` + API_KEY;
-  console.log(url);
-  let exists = false;
-  
-  await axios.get(url).then(response => {
-    exists = true;
-  }).catch(error => {
-    console.log(error.message);
-    
-  });
-
-  return exists;
-}
-
-const checkIfIngredientExists = async (id) => {
-  let url = SPOON_API_ENDPOINT_BASE + `/food/ingredients/${id}/information` + API_KEY;
-  console.log(url);
-  let exists = false;
-  
-  await axios.get(url).then(response => {
-    exists = true;
-  }).catch(error => {
-    console.log(error.message);
-  });
-
-  return exists;
-}
 
 router.get(ROOT, (_, res) => {
     let query = 'SELECT * FROM User;';
@@ -123,7 +27,7 @@ router.get(ROOT, (_, res) => {
 });
 
 router.get(USERNAME, async (req, res) => {
-  const msg = await checkIfUserExists(req.params.username);
+  const msg = await dbFunc.checkIfUserExists(req.params.username);
   res.send(msg[1]);
 });
 
@@ -138,7 +42,7 @@ router.post(ROOT, (req, res) => {
     req.on('end', async () => {
         let json = JSON.parse(body);  
 
-        const user = await checkIfUserExists(json.username);
+        const user = await dbFunc.checkIfUserExists(json.username);
 
         if (user[0]) {
           bcrypt.compare(json.password, user[1].Password, (err, result) => {
@@ -170,7 +74,7 @@ router.post(ROOT, (req, res) => {
 
 router.get(USERNAME + SAVED_RECIPES, async (req, res) => {
   let u = req.params.username;
-  const msg = await checkIfUserExists(u);
+  const msg = await dbFunc.checkIfUserExists(u);
   if (msg[0]) {
     let savedRecipesQuery = `SELECT * FROM SavedRecipe WHERE Username = '${u}';`;
     con.promise(savedRecipesQuery)
@@ -196,10 +100,10 @@ router.post(USERNAME + SAVED_RECIPES, (req, res) => {
 
         let u = req.params.username;
 
-        const msg = await checkIfUserExists(u);
-        const saved = await checkIfRecipeAlreadySaved(u, json.recipeId);
+        const msg = await dbFunc.checkIfUserExists(u);
+        const saved = await dbFunc.checkIfRecipeAlreadySaved(u, json.recipeId);
 
-        const exists = await checkIfRecipeExists(json.recipeId);
+        const exists = await dbFunc.checkIfIdExistsInTable(json.recipeId, tables.RECIPE);
         
         if (msg[0] && !saved[0] && exists) {
           const sqlAddSavedRecipe = [
@@ -221,9 +125,10 @@ router.post(USERNAME + SAVED_RECIPES, (req, res) => {
 
 router.get(USERNAME + INGREDIENTS, async (req, res) => {
   let u = req.params.username;
-  const msg = await checkIfUserExists(u);
+  const msg = await dbFunc.checkIfUserExists(u);
+  const table = tables.USER_INGREDIENT;
   if (msg[0]) {
-    let savedRecipesQuery = `SELECT * FROM Ingredients WHERE Username = '${u}';`;
+    let savedRecipesQuery = `SELECT * FROM ${table} WHERE Username = '${u}';`;
     con.promise(savedRecipesQuery)
     .then(result => {
       res.send(result);
@@ -247,10 +152,10 @@ router.post(USERNAME + INGREDIENTS, (req, res) => {
 
       let u = req.params.username;
 
-      const msg = await checkIfUserExists(u);
-      const saved = await checkIfIngredientAlreadySaved(u, json.ingredientId);
+      const msg = await dbFunc.checkIfUserExists(u);
+      const saved = await dbFunc.checkIfIngredientAlreadySaved(u, json.ingredientId);
 
-      const exists = await checkIfIngredientExists(json.ingredientId);
+      const exists = await dbFunc.checkIfIdExistsInTable(json.ingredientId, tables.INGREDIENT);
       
       if (msg[0] && !saved[0] && exists) {
         const sqlAddIngredient = [
