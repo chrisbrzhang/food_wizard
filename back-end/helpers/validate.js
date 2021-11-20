@@ -28,10 +28,10 @@ exports.isValidAuthenticationRequest = (user) => {
 }
 
 exports.isValidRecipe = (recipe) => {
-  if (!recipe.title) {
+  if (recipe.title === null || recipe.title === undefined) {
     return [false, "A title is required to create a recipe."];
   }
-  if (!recipe.description) {
+  if (recipe.description === null || recipe.description === undefined) {
     return [false, "A description is required to create a recipe."];
   }
   if (typeof(recipe.title) !== "string") {
@@ -40,5 +40,14 @@ exports.isValidRecipe = (recipe) => {
   if (typeof(recipe.description) !== "string") {
     return [false, "Description must be a string value."];
   }
-  
+  if (recipe.title === "") {
+    return [false, "Title cannot be an empty string."];
+  }
+  if (recipe.title.length > 100) {
+    return [false, "Title must be less than 100 characters."];
+  }
+  if (recipe.description.length > 100) {
+    return [false, "Description must be less than 300 characters."];
+  }
+  return [true, "This is a valid request."];
 }
