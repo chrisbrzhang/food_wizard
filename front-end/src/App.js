@@ -1,7 +1,7 @@
 import './App.css';
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route
 } from "react-router-dom";
 
@@ -17,17 +17,22 @@ import NavBar from './NavBar';
 
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
-
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
+import WeatherPage from './pages/WeatherPage';
 
 export default function App() {
   return (
     <Router>
       <NavBar/>
       <div className="App">
-        <Switch>
-          <Route path="/" component={HomePage}/>
-          <Route path="/about" component={AboutPage}/>
-        </Switch>
+        <Routes>
+          <Route path="/" exact element={<HomePage />}/>
+          <Route path="/about" element={<AboutPage />}/>
+          <Route path="/login" element={<LoginPage />}/>
+          <Route path="/register" element={<RegisterPage />}></Route>
+          <Route path="/weather" element={<WeatherPage />} />
+        </Routes>
       </div>
     </Router>
   );
