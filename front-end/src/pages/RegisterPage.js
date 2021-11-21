@@ -6,7 +6,6 @@ import { FormControl, Form, Button } from "react-bootstrap";
 const RegisterPage = () => {
     const [email, setemail] = useState('');
     const [password, setpassword] = useState('')
-    // P@$$w0rd aaa3@aaa.aaa
 
     const navigate = useNavigate()
 
@@ -32,9 +31,7 @@ const RegisterPage = () => {
                
             }).catch((error) => {
                 console.log(error)
-            })
-
-
+        })
     }
 
     const redirect_to_login = () => {
