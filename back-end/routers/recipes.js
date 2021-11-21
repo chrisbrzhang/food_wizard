@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const con = require('../connection');
+const v = require('../helpers/validate');
 
 const ROOT = '/';
 const ID = '/:id';
@@ -42,25 +43,34 @@ router.post(ROOT, (req, res) => {
     });
 
     req.on('end', () => {
-        let json = JSON.parse(body);   
+        let json = JSON.parse(body);
         
-        const queryAddRecipe = [
-            'INSERT INTO Recipe (Id, Title, ImageUrl)',
-            `VALUES (${json.id}, '${json.title}', '${json.image}');`,
-        ].join(' ');
-        
-        con.query(queryAddRecipe, (err, _) => {
-            if (err) console.log(err.message);
-            let output = {
-                "Success": true,
-                "Entry": {
-                    "Id": json.id,
-                    "Title": json.title,
-                    "ImageUrl": json.image
+        let isValid = v.isValidRecipe(json);
+        if (!isValid[0]) {
+          let output = {
+            "success": false,
+            "message": isValid[1]
+          }
+          res.send(output);
+        } else {        
+            const queryAddRecipe = [
+                'INSERT INTO Recipe (Title, Description)',
+                `VALUES ('${json.title}', '${json.description}');`,
+            ].join(' ');
+            
+            con.query(queryAddRecipe, (err, result) => {
+                if (err) console.log(err.message);
+                let output = {
+                    "success": true,
+                    "entry": {
+                        "id": result.insertId,
+                        "title": json.title,
+                        "description": json.description,
+                    }
                 }
-            }
-            res.send(output);
-        });
+                res.send(output);
+            });
+        }
     });
 });
 
