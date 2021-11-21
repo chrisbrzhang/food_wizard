@@ -12,8 +12,21 @@ router.get(ROOT, (_, res) => {
     let query = 'SELECT * FROM Recipe;';
     
     con.query(query, (err, result) => {
-        if (err) console.log(err.message);
-        res.send(result);
+        if (err) {
+            console.log(err.message);
+            let output = {
+                "success": false,
+                "message": "Unable to retrieve recipes."
+            }
+            res.send(output);
+        } else {
+            let output = {
+                "success": true,
+                "recipes": result
+            }
+            res.send(output);
+        }
+        
     });
 });
 
@@ -22,11 +35,27 @@ router.get(ID, (req, res) => {
     query_get_recipe += 1;
     
     con.query(query, (err, result) => {
-        if (err) console.log(err.message);
+        if (err) {
+            console.log(err.message);
+            let output = {
+                "success": false,
+                "message": "Unable to retrieve recipe."
+            }
+            res.send(output);
+        }
         if (result.length === 0) {
-            res.send("There is no recipe by that id.");
+            let output = {
+                "success": false,
+                "message": "There is no recipe by that id."
+            }
+            res.send(output);
         } else {
-            res.send(result[0]);
+            let output = {
+                "success": true,
+                "message": "Success.",
+                "recipe": result[0]
+            }
+            res.send(output);
         }
     });
 });

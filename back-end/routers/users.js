@@ -19,11 +19,11 @@ router.get(ROOT, (_, res) => {
       output.forEach(user => {
         delete user.Password;
       })
-      res.send(output);
+      res.send({"success": true, "users": output});
     })
     .catch((error) => {
       console.log(error.message);
-      res.send(error.message);
+      res.send({"success": false, "message": error.message});
     });
     
 });

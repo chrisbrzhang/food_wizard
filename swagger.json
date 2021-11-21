@@ -1,0 +1,405 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is an API that allows users to upload and save recipes. It also allows for them to add the ingredients they currently have on hand and return any suggested recipes for those ingredients.",
+    "version": "1.0.0",
+    "title": "Recipe Wizard",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "jakobtaze@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "jakobandjonny.a2hosted.com",
+  "basePath": "/recipewizard/api/v1",
+  "tags": [
+    {
+      "name": "register",
+      "description": "Create a user"
+    },
+    {
+      "name": "login",
+      "description": "Retrieve JWT token"
+    },
+    {
+      "name": "users",
+      "description": "Operations about users"
+    },
+    {
+      "name": "recipes",
+      "description": "Operations about recipes"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": [
+          "register"
+        ],
+        "summary": "Create a new user with email and password",
+        "description": "",
+        "operationId": "addUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object to be created.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/RegisterResponse"
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "Login with email and password to get JWT token",
+        "description": "",
+        "operationId": "getToken",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object to be created.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get all users",
+        "description": "",
+        "operationId": "getUsers",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/UsersResponse"
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Find user by ID",
+        "description": "Returns a single user",
+        "operationId": "getUserById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/recipes": {
+      "get": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Get all recipes",
+        "description": "",
+        "operationId": "getRecipes",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/RecipesGetResponse"
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Create a new recipe",
+        "description": "",
+        "operationId": "postRecipe",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Recipe object to be created.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Recipe"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/RecipePostResponse"
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/recipes/{recipeId}": {
+      "get": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "Find recipe by ID",
+        "description": "Returns a single recipe",
+        "operationId": "getRecipeById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "ID of recipe to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/RecipeGetResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Recipe not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "UserResponse": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "integer"
+        },
+        "Email": {
+          "type": "string"
+        }
+      }
+    },
+    "UsersResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "users": {
+          "type": "array"
+        }
+      }
+    },
+    "LoginResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "user": {
+          "type": "object"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "RegisterResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Recipe": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "RecipePostResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "entry": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "RecipesGetResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "recipes": {
+          "type": "array"
+        }
+      }
+    },
+    "RecipeGetResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "recipe": {
+          "type": "object",
+          "properties": {
+            "Id": {
+              "type": "integer"
+            },
+            "Title": {
+              "type": "string"
+            },
+            "Description": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
