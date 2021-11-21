@@ -12,9 +12,9 @@ const RegisterPage = () => {
 
     const createUser = () => {
 
-        axios.post('https://localhost:5001/register', {
-            Email: email,
-            Password: password
+        axios.post('http://localhost:8888/register', {
+            "email": email,
+            "password": password
         },
             {
                 headers: {
@@ -23,7 +23,13 @@ const RegisterPage = () => {
                 }
             }).then((response) => {
                 console.log(response.data)
-                redirect_to_login()
+                if (response.data.success == false) {
+                    alert(response.data.message)
+                }
+                else {
+                    redirect_to_login()
+                }
+               
             }).catch((error) => {
                 console.log(error)
             })

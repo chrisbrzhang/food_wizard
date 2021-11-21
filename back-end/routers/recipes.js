@@ -4,6 +4,8 @@ const con = require('../connection');
 
 const ROOT = '/';
 const ID = '/:id';
+let query_get_recipe = 0;
+let query_post_recipe = 0;
 
 router.get(ROOT, (_, res) => {
     let query = 'SELECT * FROM Recipe;';
@@ -16,6 +18,7 @@ router.get(ROOT, (_, res) => {
 
 router.get(ID, (req, res) => {
     let query = `SELECT * FROM Recipe WHERE Id = ${req.params.id};`;
+    query_get_recipe += 1;
     
     con.query(query, (err, result) => {
         if (err) console.log(err.message);
@@ -25,11 +28,13 @@ router.get(ID, (req, res) => {
             res.send(result[0]);
         }
     });
-
 });
+
 
 router.post(ROOT, (req, res) => {
     let body = "";
+    query_post_recipe += 1;
+
     req.on('data', (chunk) => {
         if (chunk !== null) {
             body += chunk;

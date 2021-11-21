@@ -19,13 +19,16 @@ const registerRouter = require('./routers/register');
 // const ROOT = '/COMP4537/TermProject';
 const ROOT = '';
 
+var cors = require('cors')
+
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
-    res.header('Access-Control-Allow-Origin', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    res.header('Access-Control-Allow-Methods', '*');
     res.header('Content-Type', 'application/json');
     next();
 });
+
+app.use(cors())
 
 app.use(jwt());
 
