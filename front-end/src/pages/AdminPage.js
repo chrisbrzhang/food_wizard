@@ -12,7 +12,7 @@ const AdminPage = () => {
 
     // get number of requests for post/id and get/id, see recipes.js
    function getAllRequests() {
-        axios.get('http://localhost:8888/recipes/requests', 
+        axios.get('https://jakobandjonny.a2hosted.com/COMP4537/back-end/recipes/requests', 
         {
             headers: {
                 "Authorization": "Bearer " + token,
