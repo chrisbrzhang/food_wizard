@@ -46,7 +46,7 @@ router.post(ROOT, (req, res) => {
                 let output = {
                   "success": true,
                   "message": `You are now logged in as ${json.email}`,
-                  "user": omitPassword(user[1]),
+                  ...omitPassword(user[1]),
                   token
                 }
                 res.send(output);

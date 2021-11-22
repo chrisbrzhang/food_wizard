@@ -5,6 +5,7 @@ const v = require('../helpers/validate');
 
 const ROOT = '/';
 const ID = '/:id';
+const REQUESTS = '/requests';
 let query_get_recipe = 0;
 let query_post_recipe = 0;
 
@@ -28,6 +29,15 @@ router.get(ROOT, (_, res) => {
         }
         
     });
+});
+
+// contains number of requests for get/id and post/id
+router.get(REQUESTS, (_, res) => {
+    let output = {
+        "get": query_get_recipe,
+        "post": query_post_recipe
+    }
+    res.send(output);
 });
 
 router.get(ID, (req, res) => {
