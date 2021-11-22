@@ -12,6 +12,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import NavBar from './NavBar';
 
+import { Container } from 'react-bootstrap';
+
 
 // import { BrowserRouter } from 'react-router-dom';
 
@@ -26,8 +28,9 @@ import UserPage from './pages/UserPage';
 export default function App() {
   return (
     <Router>
-      <NavBar/>
-      <div className="App">
+      <NavBar className='Nav'/>
+      
+      <Container className='App'>
         <Routes>
           <Route path="/" exact element={<HomePage />}/>
           <Route path="/about" element={<AboutPage />}/>
@@ -36,7 +39,7 @@ export default function App() {
           <Route path="/user" element={<UserPage />} />
           <Route path="/admin" element={<AdminPage/>} />
         </Routes>
-      </div>
+      </Container>
     </Router>
   );
 }
