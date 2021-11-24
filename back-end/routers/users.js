@@ -29,6 +29,7 @@ router.get(ROOT, (_, res) => {
 });
 
 router.get(ID, async (req, res) => {
+  console.log(req)
   const msg = await dbFunc.checkIfIdExistsInTable(req.params.id, q.tables.USER);
   let output;
   if (msg[0]) {
