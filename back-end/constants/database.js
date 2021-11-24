@@ -32,7 +32,7 @@ exports.createRecipeTableQuery = [
   '(Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,',
   'Title VARCHAR(100) NOT NULL,',
   'Description VARCHAR(300) NULL DEFAULT "");'
-].join(' ');
+].join(' ');  
 
 // Create RecipeIngredient table query
 exports.createRecipeIngredientTableQuery = [

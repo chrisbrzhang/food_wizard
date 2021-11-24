@@ -83,7 +83,7 @@ exports.updateUser = async (email, newpassword, table) => {
     }
   }).catch(err => {
     console.log(err)
-    msg = [false, "bruh"]
+    msg = [false, err]
   })
   return msg;
 }
