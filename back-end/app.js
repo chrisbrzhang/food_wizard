@@ -34,6 +34,8 @@ app.use(cors())
 
 app.use(jwt());
 
+app.use(express.json());
+
 app.use(ROOT + LOGIN, loginRouter);
 
 app.use(ROOT + REGISTER, registerRouter);
