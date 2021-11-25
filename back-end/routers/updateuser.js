@@ -7,31 +7,22 @@ const dbFunc = require('../helpers/database');
 const ROOT = '/';
 
 router.put(ROOT, async (req, res) => {
-  let body = "";
-  req.on('data', (chunk) => {
-      if (chunk !== null) {
-          body += chunk;
-      }
-  });
-
-  req.on('end', async () => {
-      let json = JSON.parse(body);
-      console.log(json, q.tables.USER)
-      const msg = await dbFunc.updateUser(json.email, json.password, q.tables.USER);
-      let output;
-      if (msg[0]) {
-          output = {
-            "success": true,
-            "msg": msg[1]
-          }
-        } else {
-          output = {
-            "success": false,
-            "msg": msg[1]
-          }
-        }
-        res.send(msg);
-  });
+  let json = req.body;
+  console.log(json, q.tables.USER)
+  const msg = await dbFunc.updateUser(json.email, json.password, q.tables.USER);
+  let output;
+  if (msg[0]) {
+    output = {
+      "success": true,
+      "msg": msg[1]
+    }
+  } else {
+    output = {
+      "success": false,
+      "msg": msg[1]
+    }
+  }
+  res.send(msg);
 });
 
 module.exports = router;

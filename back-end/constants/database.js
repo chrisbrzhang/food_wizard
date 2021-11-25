@@ -1,10 +1,10 @@
 const tables = {
-  USER: "User",
   USER_INGREDIENT: "UserIngredient",
-  RECIPE: "Recipe",
   RECIPE_INGREDIENT: "RecipeIngredient",
   INSTRUCTION: "Instruction",
-  SAVED_RECIPE: "SavedRecipe"
+  SAVED_RECIPE: "SavedRecipe",
+  USER: "User",
+  RECIPE: "Recipe",
 }
 
 exports.tables = tables;
@@ -31,17 +31,17 @@ exports.createRecipeTableQuery = [
   `CREATE TABLE IF NOT EXISTS ${tables.RECIPE}`,
   '(Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,',
   'Title VARCHAR(100) NOT NULL,',
-  'Description VARCHAR(300) NULL DEFAULT "");'
-].join(' ');  
+  'Description VARCHAR(500) NULL DEFAULT "");'
+].join(' ');
 
 // Create RecipeIngredient table query
 exports.createRecipeIngredientTableQuery = [
   `CREATE TABLE IF NOT EXISTS ${tables.RECIPE_INGREDIENT}`,
   '(Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,',
-  'Name VARCHAR(50),',
-  'Amount NUMERIC(5,2),',
-  'Unit VARCHAR(20),',
-  'Description VARCHAR(100) NULL DEFAULT "",',
+  'Name VARCHAR(100) NOT NULL,',
+  'Optional BOOLEAN NOT NULL DEFAULT FALSE,',
+  'Amount VARCHAR(20) DEFAULT "",',
+  'Description VARCHAR(200) NULL DEFAULT "",',
   'RecipeId INT NOT NULL,',
   'FOREIGN KEY (RecipeId) REFERENCES Recipe(Id));'
 ].join(' ');
@@ -51,7 +51,8 @@ exports.createInstructionTableQuery = [
   `CREATE TABLE IF NOT EXISTS ${tables.INSTRUCTION}`,
   '(Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,',
   'Step INT NOT NULL,',
-  'Details VARCHAR(200) NOT NULL,',
+  'Title VARCHAR(200) NOT NULL,',
+  'Details VARCHAR(500) NOT NULL,',
   'RecipeId INT NOT NULL,',
   'FOREIGN KEY (RecipeId) REFERENCES Recipe(Id));'
 ].join(' ');

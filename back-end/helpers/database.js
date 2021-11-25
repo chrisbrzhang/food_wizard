@@ -37,24 +37,6 @@ exports.checkIfRecipeAlreadySaved = async (userId, recipeId) => {
   return arr;
 }
 
-exports.checkIfIngredientAlreadySaved = async (userId, ingredientId) => {
-  let query = `SELECT * FROM UserIngredient WHERE UserId = '${userId}' AND IngredientId = ${ingredientId};`;
-  let arr = [true, ""];
-    
-  await con.promise(query)
-  .then((result) => {
-    if (result.length === 0) {
-      arr = [false, "This ingredient is not already saved."];
-    } else {
-      arr = [true, "This ingredient has already been added to your list."];
-    }
-  })
-  .catch((error) => {
-    console.log(error.message);
-  });
-  return arr;
-}
-
 exports.checkIfIdExistsInTable = async (id, table) => {
   console.log(table);
 
