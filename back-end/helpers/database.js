@@ -74,15 +74,16 @@ exports.checkIfIdExistsInTable = async (id, table) => {
 }
 
 exports.updateUser = async (email, newpassword, table) => {
-  let query = `UPDATE ${table} SET password = ${newpassword} WHERE Email = ${email};`;
+  let query = `UPDATE ${table} SET Password='${newpassword}' WHERE Email='${email}';`;
+  console.log(query)
   let msg = [false, ""]
   await con.promise(query)
-  .then((result) => { 
+  .then((result) => {
+    console.log(result)
     if (result.length > 0) {
       msg = [true, "New password saved"]
     }
   }).catch(err => {
-    console.log(err)
     msg = [false, err]
   })
   return msg;
