@@ -1,6 +1,6 @@
 const express = require('express');
 const jwt = require('./jwt/jwt');
-const PORT = 8888;
+const PORT = 8000;
 const app = express();
 const RECIPES = '/recipes';
 const INGREDIENTS = '/ingredients';
