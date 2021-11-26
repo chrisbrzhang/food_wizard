@@ -14,6 +14,7 @@ exports.createUserTableQuery = [
   `CREATE TABLE IF NOT EXISTS ${tables.USER}`,
   '(Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,',
   'Email VARCHAR(80) NOT NULL,',
+  'Token VARCHAR(250) NULL,',
   'Password VARCHAR(100) NOT NULL);'
 ].join(' ');
 

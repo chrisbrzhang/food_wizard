@@ -55,16 +55,34 @@ exports.checkIfIdExistsInTable = async (id, table) => {
   return msg;
 }
 
-exports.updateUser = async (email, newpassword, table) => {
-  let query = `UPDATE ${table} SET Password='${newpassword}' WHERE Email='${email}';`;
+exports.checkUserToken = async (id, token) => {
+  // console.log(table);
+
+  let query = `SELECT * FROM User WHERE Id = ${id} AND Token = '${token}';`;
+  let msg = [false, ""];
+    
+  await con.promise(query)
+  .then((result) => {
+    if (result.length > 0) {
+      msg = [true, result[0]];
+    }
+  })
+  .catch(error => {
+    console.log(error.message);
+  });
+  return msg;
+}
+
+exports.updateUser = async (id, newpassword, table) => {
+  let query = `UPDATE ${table} SET Password='${newpassword}' WHERE Id=${id};`;
   console.log(query)
   let msg = [false, ""]
   await con.promise(query)
   .then((result) => {
     console.log(result)
-    if (result.length > 0) {
+    // if (result.length > 0) {
       msg = [true, "New password saved"]
-    }
+    // }
   }).catch(err => {
     msg = [false, err]
   })

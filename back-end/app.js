@@ -10,10 +10,8 @@ const REGISTER = '/register';
 const recipeRouter = require('./routers/recipes');
 const ingredientsRouter = require('./routers/ingredients');
 const userRouter = require('./routers/users');
-const userpwchangeRouter = require('./routers/updateuser');
 const loginRouter = require('./routers/login');
 const registerRouter = require('./routers/register');
-const UPDATE_USER = '/updateUser';
 
 // ##################################################################
 // # Set this to the root of your node js application on a2hosting. #
@@ -41,8 +39,6 @@ app.use(ROOT + LOGIN, loginRouter);
 app.use(ROOT + REGISTER, registerRouter);
 
 app.use(ROOT + RECIPES, recipeRouter);
-
-app.use(ROOT + UPDATE_USER, userpwchangeRouter)
 
 // app.use(ROOT + INGREDIENTS, ingredientsRouter);
 

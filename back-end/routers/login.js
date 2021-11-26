@@ -5,6 +5,7 @@ const config = require('../config.json');
 const jwt = require('jsonwebtoken');
 const dbFunc = require('../helpers/database');
 const v = require('../helpers/validate');
+const con = require('../connection');
 
 const ROOT = '/';
 const tokenDuration = '7d';
@@ -14,7 +15,7 @@ const getToken = (email) => {
 }
 
 function omitPassword(user) {
-  const { Password, ...userWithoutPassword } = user;
+  const { Password, Token, ...userWithoutPassword } = user;
   return userWithoutPassword;
 }
 
@@ -41,7 +42,11 @@ router.post(ROOT, async (req, res) => {
             ...omitPassword(user[1]),
             token
           }
-          res.send(output);
+          let updateTokenSql = `UPDATE User SET Token = '${token}' WHERE Id = ${user[1].Id};`;
+          con.promise(updateTokenSql)
+          .finally(() => {
+            res.send(output);
+          });          
         } else {
           let output = {
             "success": false,

@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 // import axios from 'axios';
 
 const HomePage = () => {
-    const [URL] = useState('https://api.spoonacular.com/recipes/findByIngredients?apiKey=')
-    const [API_KEY] = useState('c0c634289d2a4a2590b2eaa4abf5f6aa')
     const [RESOURCE] = useState('&ingredients=')
 
     const get_Recipe = async () => {
@@ -16,6 +14,7 @@ const HomePage = () => {
             alert("Please insert more ingredients");
             // return
         }
+
         let query_param = list.join(",+");
         query_param = query_param.toLowerCase();
         console.log(query_param);
