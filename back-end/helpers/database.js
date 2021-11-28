@@ -1,4 +1,6 @@
 const con = require('../connection');
+const bcrypt = require('bcrypt');
+const SALTS = 10;
 
 exports.checkIfUserExists = async (email) => {
   let query = `SELECT * FROM User WHERE Email = '${email}';`;
@@ -74,10 +76,13 @@ exports.checkUserToken = async (id, token) => {
 }
 
 exports.updateUser = async (id, newpassword, table) => {
-  let msg = [false, ""]
+  console.log(newpassword);
   bcrypt.hash(newpassword, SALTS, async (_, hash) => {
+  let msg = [false, ""]
+  console.log(hash, id);
 
   const query = `UPDATE ${table} SET Password='${hash}' WHERE Id=${id};`;
+  console.log(query);
   await con.promise(query)
   .then((result) => {
     console.log(result)
@@ -85,6 +90,6 @@ exports.updateUser = async (id, newpassword, table) => {
   }).catch(err => {
     msg = [false, err]
     })
+    return msg;
   })
-  return msg;
 }

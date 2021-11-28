@@ -35,15 +35,18 @@ const UpdateUserPage = () => {
 
 
     const changepw = () => {
-        if (newpass.length > 0 && newpass != reconpass) {
+        if (newpass.length < 1 && newpass != reconpass) {
             alert("Passwords do not match")
         } else {
-            const headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer '+ token}
+            const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
+            console.log(headers)
             const password = {"Password": newpass}
             axios.put(`http://localhost:8888/users/${id}`, password, {headers}).then((response)=> {
                 console.log(response)
+                console.log("Pasword changed!")
             }).catch((err) => {
                 console.log(err)
+                console.log("Pasword NOT changed!")
             });
         }
     }
