@@ -13,7 +13,6 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (data.length != 0) {
-            console.log(data)
             if (data.Email == "admin@gmail.com") {
                 redirectAdminPage()
             }
@@ -42,11 +41,14 @@ const LoginPage = () => {
               }
               else {
                 setData(response.data)
-                console.log(response.data)
               }
           }).catch((error)=> {
               console.log(error)
           })
+    }
+
+    const checkIfAdmin = () => {
+        console.log(data);
     }
 
     
