@@ -25,7 +25,7 @@ const LoginPage = () => {
     const loginUser = () => {
         console.log("Login User")
 
-        axios.post('https://jakobandjonny.a2hosted.com/COMP4537/back-end/login', {
+        axios.post('http://localhost:8888/login', {
             "email": email,
             "password": password
           },
@@ -48,7 +48,7 @@ const LoginPage = () => {
     }
 
     const redirectUserPage = () => {
-        navigate('/user', 
+        navigate(`/user/${data.Id}`, 
         {
             state: {data: data}
         })
