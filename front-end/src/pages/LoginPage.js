@@ -19,7 +19,6 @@ const LoginPage = () => {
             else {
                 redirectUserPage()
             }
-            // redirectPage()
         }
     }, [data])
 
@@ -40,30 +39,13 @@ const LoginPage = () => {
                   alert(response.data.message)
               }
               else {
-                setData(response.data)
+                setData(response.data);
+                localStorage.setItem("token", data.token);
               }
           }).catch((error)=> {
               console.log(error)
           })
     }
-
-    const checkIfAdmin = () => {
-        console.log(data);
-    }
-
-    
-    // this will be how we structure the get req for all datas
-    // const getWeather = () => {
-    //     axios.get("https://localhost:5001/weatherforecast", {
-    //         headers: {
-    //             "Authorization": "Bearer " + token,
-    //             "Access-Control-Allow-Origin": "*"
-    //           }
-    //     }).then((response) => {
-    //         setData(response.data)
-    //     }).catch((error)=> 
-    //     {console.log(error)})
-    // }
 
     const redirectUserPage = () => {
         navigate('/user', 
