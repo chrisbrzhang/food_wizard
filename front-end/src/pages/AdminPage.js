@@ -1,21 +1,38 @@
-import React, {useState, useEffect} from "react";
-import { useLocation } from "react-router";
+import React, { useState } from "react";
+import {Form, Button} from "react-bootstrap";
 import axios from "axios";
 
 const AdminPage = () => {
+    const [token, setToken] = useState('');
     const [data, setData] = useState('');
-    const location = useLocation();
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
-    useEffect (() => {
-        if (location.state != null) {
-            setData(location.state.data);
-        } else {
-            console.log("No admin account detected.");
-        }
-    }, [])
+    function checkAdmin() {
+        axios.post('http://localhost:8888/login', {
+            "email": email,
+            "password": password
+          },
+          {
+              headers: {
+                  "Content-Type": "application/json",
+                  "Access-Control-Allow-Origin": "*"
+              }
+          }).then((response) => {
+              if (response.data.success == false) {
+                  alert(response.data.message)
+              }
+              else {
+                setData(response.data);
+                localStorage.setItem("token", data.token);
+              }
+          }).catch((error)=> {
+              console.log(error)
+          })
+    }
 
     // get number of requests for post/id and get/id, see recipes.js
-   function getAllRequests() {
+    function getAllRequests() {
         axios.get('https://jakobandjonny.a2hosted.com/COMP4537/back-end/recipes/requests', 
         {
             headers: {
@@ -32,9 +49,9 @@ const AdminPage = () => {
         .catch(function (error) {
             console.log(error);
         });
-   }
+    }
 
-   if (data.Email == "admin@gmail.com") {
+    if (data.Email == "admin@gmail.com") {
         window.onload = getAllRequests();
         return (
             <React.Fragment>
@@ -59,15 +76,28 @@ const AdminPage = () => {
                 </table>
             </React.Fragment>
         )
-   } else {
-       return (
-        <React.Fragment>
-            <h1>Admin Page </h1>
+    } else {
+        return (
+            <React.Fragment>
+                <h1>Admin Page</h1>
+                <p>Please enter admin credentials to access this page.</p>
+                <Form>
+                    <Form.Group className="mb-3" controlId="formBasicEmail" onChange={(e)=> setEmail(e.target.value)}>
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control type="email" placeholder="Enter email" />
+                    </Form.Group>
 
-            <p>Log in as an admin to view this page.</p>
-        </React.Fragment>
-       );
-   }
+                    <Form.Group className="mb-3" controlId="formBasicPassword" onChange={(e)=> setPassword(e.target.value)}>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control type="password" placeholder="Password" />
+                    </Form.Group>
+                    <Button variant="primary" type="button" onClick= {() => checkAdmin()}>
+                        Submit
+                    </Button>
+                </Form>
+            </React.Fragment>
+        );
+    }
 
 }
 

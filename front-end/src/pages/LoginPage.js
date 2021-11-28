@@ -13,12 +13,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (data.length != 0) {
-            if (data.Email == "admin@gmail.com") {
-                redirectAdminPage()
-            }
-            else {
-                redirectUserPage()
-            }
+            redirectUserPage()
         }
     }, [data])
 
@@ -53,14 +48,6 @@ const LoginPage = () => {
             state: {data: data}
         })
     }
-
-    const redirectAdminPage = () => {
-        navigate('/admin', 
-        {
-            state: {data: data}
-        })
-    }
-
     
 
     return (
