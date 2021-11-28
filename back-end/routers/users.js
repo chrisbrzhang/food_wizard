@@ -11,6 +11,7 @@ const ID2 = '/:id2';
 const SAVED_RECIPES = '/recipes';
 const SUGGESTED = '/suggested';
 const INGREDIENTS = '/ingredients';
+const BATCH = '/batch';
 
 
 router.put(ID, async (req, res) => {
@@ -145,6 +146,68 @@ router.post(ID + INGREDIENTS, async (req, res) => {
   }
 });
 
+router.post(ID + BATCH, async (req, res) => {
+  const id = req.params.id;
+  const list = req.body.list;
+
+  if (list === undefined) {
+    res.send("Must specify 'list'");
+  } else if (!Array.isArray(list) || !list.every(i => (typeof i === "string"))) {
+    res.send("'list' must be an array of strings");
+  } else {
+    const userExists = await dbFunc.checkIfIdExistsInTable(id, q.tables.USER);
+
+    console.log(userExists);
+  
+    if (userExists[0]) {
+      list.forEach((i, index) => {
+        let sqlAddIngredient = [
+          'INSERT INTO UserIngredient (Name, UserId)',
+          `VALUES ("${i}", ${id});`,
+        ].join(' ');
+        con.promise(sqlAddIngredient)
+          .then(result => {
+            if (index === list.length - 1) res.send("Ingredients successfully added");
+          })
+          .catch(error => {
+            console.log(error.message);
+            res.send(error.message);
+          });
+      })
+
+    } else {
+      res.send("Error occured adding ingredient.");
+    }
+  }
+});
+
+router.delete(ID + INGREDIENTS + ID2, async (req, res) => {
+  let id = req.params.id;
+  let id2 = req.params.id2;
+
+  const userExists = await dbFunc.checkIfIdExistsInTable(id, q.tables.USER);
+  const valid = await dbFunc.checkUserToken(id, req.headers.authorization.split(' ')[1]);
+  const saved = await dbFunc.checkIfIdExistsInTable(id2, q.tables.USER_INGREDIENT);
+
+  if (!valid[0]) {
+    res.send('Invalid token.');
+  } else if (!userExists[0]) {
+    res.send('User does not exist.');
+  } else if (!saved[0]) {
+    res.send('That ingredient does not exist');
+  } else {
+    const sqlDeleteSavedRecipe = `DELETE FROM UserIngredient WHERE Id = ${id2}`;
+    con.promise(sqlDeleteSavedRecipe)
+    .then(result => {
+      res.send("Ingredient deleted.");
+    })
+    .catch(error => {
+      console.log(error.message);
+      res.send(error.message);
+    });
+  }
+});
+
 router.get(ID + SAVED_RECIPES, async (req, res) => {
   let id = req.params.id;
   const userExists = await dbFunc.checkIfIdExistsInTable(id, q.tables.USER);
@@ -208,6 +271,33 @@ router.post(ID + SAVED_RECIPES, async (req, res) => {
     } else {
       res.send("Error occured adding recipe.");
     }
+  }
+});
+
+router.delete(ID + SAVED_RECIPES + ID2, async (req, res) => {
+  let id = req.params.id;
+  let id2 = req.params.id2;
+
+  const userExists = await dbFunc.checkIfIdExistsInTable(id, q.tables.USER);
+  const valid = await dbFunc.checkUserToken(id, req.headers.authorization.split(' ')[1]);
+  const saved = await dbFunc.checkIfIdExistsInTable(id2, q.tables.SAVED_RECIPE);
+
+  if (!valid[0]) {
+    res.send('Invalid token.');
+  } else if (!userExists[0]) {
+    res.send('User does not exist.');
+  } else if (!saved[0]) {
+    res.send('That recipe is not saved');
+  } else {
+    const sqlDeleteSavedRecipe = `DELETE FROM SavedRecipe WHERE Id = ${id2}`;
+    con.promise(sqlDeleteSavedRecipe)
+    .then(result => {
+      res.send("Recipe deleted.");
+    })
+    .catch(error => {
+      console.log(error.message);
+      res.send(error.message);
+    });
   }
 });
 
