@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router";
-import { useParams } from "react-router";
-import { FormControl, Form, Button } from "react-bootstrap";
+import { useLocation, useParams } from "react-router";
+import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 

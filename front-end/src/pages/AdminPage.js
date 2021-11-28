@@ -3,7 +3,6 @@ import {Form, Button} from "react-bootstrap";
 import axios from "axios";
 
 const AdminPage = () => {
-    const [token, setToken] = useState('');
     const [data, setData] = useState('');
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -24,7 +23,6 @@ const AdminPage = () => {
               }
               else {
                 setData(response.data);
-                localStorage.setItem("token", data.token);
               }
           }).catch((error)=> {
               console.log(error)

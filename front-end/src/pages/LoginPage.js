@@ -4,7 +4,6 @@ import axios from "axios";
 import {Form, Button} from "react-bootstrap";
 
 const LoginPage = () => {
-
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [data, setData] = useState([])
@@ -48,7 +47,6 @@ const LoginPage = () => {
             state: {data: data}
         })
     }
-    
 
     return (
         <React.Fragment>
