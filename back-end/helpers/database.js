@@ -74,17 +74,17 @@ exports.checkUserToken = async (id, token) => {
 }
 
 exports.updateUser = async (id, newpassword, table) => {
-  let query = `UPDATE ${table} SET Password='${newpassword}' WHERE Id=${id};`;
-  console.log(query)
   let msg = [false, ""]
+  bcrypt.hash(newpassword, SALTS, async (_, hash) => {
+
+  const query = `UPDATE ${table} SET Password='${hash}' WHERE Id=${id};`;
   await con.promise(query)
   .then((result) => {
     console.log(result)
-    // if (result.length > 0) {
-      msg = [true, "New password saved"]
-    // }
+    msg = [true, "New password saved"]
   }).catch(err => {
     msg = [false, err]
+    })
   })
   return msg;
 }

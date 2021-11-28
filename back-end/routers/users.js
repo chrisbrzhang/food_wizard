@@ -17,7 +17,6 @@ router.put(ID, async (req, res) => {
   let valid = await dbFunc.checkUserToken(req.params.id, req.headers.authorization.split(' ')[1]);
 
   if (valid[0]) {
-
     let json = req.body;
     console.log(json, q.tables.USER)
     const msg = await dbFunc.updateUser(req.params.id, json.password, q.tables.USER);
@@ -36,7 +35,7 @@ router.put(ID, async (req, res) => {
     res.send(msg);
 
   } else {
-    res.send("no");
+    res.send("Not a valid token");
   }
 });
 
