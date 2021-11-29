@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Form, Button} from "react-bootstrap";
 import axios from "axios";
+import { useLocation } from "react-router";
 
 const AdminPage = () => {
     const [data, setData] = useState('');
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const location = useLocation();
+
+    useEffect(() => {
+        setData(location.state.data);
+        setEmail(location.state.data.Email);
+    }, []);
 
     function checkAdmin() {
         axios.post('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/login', {
@@ -42,14 +49,13 @@ const AdminPage = () => {
         .then(function (response) {
             document.getElementById("recipeGetId").innerHTML = response.data["get"];
             document.getElementById("recipePostId").innerHTML = response.data["post"];
-            console.log(response);
         })
         .catch(function (error) {
             console.log(error);
         });
     }
 
-    if (data.Email == "admin@gmail.com") {
+    if (email == "admin@gmail.com") {
         window.onload = getAllRequests();
         return (
             <React.Fragment>
