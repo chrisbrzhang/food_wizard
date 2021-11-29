@@ -23,6 +23,7 @@ const NavBar = () => {
             <Nav className="me-auto">
               <Nav.Link><Link className="nav-link" to="/about">About</Link></Nav.Link>
               <Nav.Link><Link className="nav-link" to="/user/:id">Users</Link></Nav.Link>
+              <Nav.Link><Link className="nav-link" to="/user/:id/recipes">Recipes</Link></Nav.Link>
               <Nav.Link><Link className="nav-link" onClick={logout} to="/login">Logout</Link></Nav.Link>
             </Nav>
           </Navbar.Collapse>

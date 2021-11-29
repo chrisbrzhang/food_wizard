@@ -9,14 +9,7 @@ const HomePage = () => {
         return (
             <React.Fragment>
             <div className='Home'>
-                <form>
-                  <h1> Welcome to Recipe Wizard! </h1>
-                    <ol id="list_of_ingredients"></ol>
-                    <textarea id="ingredients_area"></textarea>
-                    {/* <button type="button" onClick= {() => add_ingredients()}> Add Ingredient </button>
-                    <button type="button"  onClick= {() => get_Recipe()}> GET RECIPES </button> */}
-                </form>
-                <div id="recipes"></div>
+                <h1> Welcome to Recipe Wizard! </h1>
             </div>
             </React.Fragment>
             )

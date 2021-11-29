@@ -24,6 +24,8 @@ import LoginPage from './pages/LoginPage';
 import AdminPage from './pages/AdminPage';
 import UserPage from './pages/UserPage';
 import UpdateUserPage from './pages/UpdateUserPage';
+import RecipesPage from './pages/RecipesPage';
+import InstructionsPage from './pages/InstructionsPage';
 
 
 export default function App() {
@@ -40,7 +42,7 @@ export default function App() {
           <Route path="/user/:id" element={<UserPage />} />
           <Route path="/admin" element={<AdminPage/>} />
           <Route path="/user/:id/update" element={<UpdateUserPage/>}/>
-        
+          <Route path="/user/:id/recipes" element={<RecipesPage/>}/>
         </Routes>
       </Container>
     </Router>
