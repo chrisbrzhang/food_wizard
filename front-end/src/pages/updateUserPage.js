@@ -39,7 +39,7 @@ const UpdateUserPage = () => {
         } else {
             const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
             console.log(headers)
-            const password = {"Password": newpass}
+            const password = {"password": newpass}
             axios.put(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}`, password, {headers}).then((response)=> {
                 console.log("This is the response", response)   
 
