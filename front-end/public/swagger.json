@@ -13,8 +13,8 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost:8888",
-  "basePath": "",
+  "host": "jakobandjonny.a2hosted.com",
+  "basePath": "/COMP4537/TermProject/api/v1",
   "securityDefinitions": {
     "Bearer": {
       "type": "apiKey",
@@ -22,6 +22,9 @@
       "in": "header"
     }
   },
+  "schemes": [
+    "https"
+  ],
   "tags": [
     {
       "name": "register",
