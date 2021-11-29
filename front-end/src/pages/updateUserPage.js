@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {useLocation, useParams } from "react-router";
 import axios from "axios";
-import { FormControl, Form, Button } from "react-bootstrap";
+import { FormControl, Form, Button, Alert } from "react-bootstrap";
 
 const UpdateUserPage = () => {
     const location = useLocation();
@@ -11,7 +11,6 @@ const UpdateUserPage = () => {
     const [email, setEmail] = useState('')
     const [token, setToken] = useState('')
     const {id} = useParams();
-
 
     useEffect(() => {
         console.log(newpass);
@@ -42,11 +41,11 @@ const UpdateUserPage = () => {
             console.log(headers)
             const password = {"Password": newpass}
             axios.put(`http://localhost:8888/users/${id}`, password, {headers}).then((response)=> {
-                console.log(response)
-                console.log("Pasword changed!")
+                console.log("This is the response", response)   
+
             }).catch((err) => {
                 console.log(err)
-                console.log("Pasword NOT changed!")
+                console.log("Password NOT changed!")
             });
         }
     }
@@ -65,7 +64,7 @@ const UpdateUserPage = () => {
                   alert("old password doesnt not match")
               }
               else {
-                  console.log("passwords matched")
+                  alert("Password changed")
                   setToken(response.data.token)
               }
         }).catch((error) => {
