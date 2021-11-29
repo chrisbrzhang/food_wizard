@@ -40,6 +40,7 @@ export default function App() {
           <Route path="/user/:id" element={<UserPage />} />
           <Route path="/admin" element={<AdminPage/>} />
           <Route path="/user/:id/update" element={<UpdateUserPage/>}/>
+        
         </Routes>
       </Container>
     </Router>

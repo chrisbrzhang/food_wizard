@@ -49,19 +49,6 @@ const LoginPage = () => {
           })
     }
 
-    
-    // this will be how we structure the get req for all datas
-    // const getWeather = () => {
-    //     axios.get("https://localhost:5001/weatherforecast", {
-    //         headers: {
-    //             "Authorization": "Bearer " + token,
-    //             "Access-Control-Allow-Origin": "*"
-    //           }
-    //     }).then((response) => {
-    //         setData(response.data)
-    //     }).catch((error)=> 
-    //     {console.log(error)})
-    // }
 
     const redirectUserPage = () => {
         navigate(`/user/${data.Id}`, 
