@@ -8,7 +8,6 @@ const USER = '/users';
 const LOGIN = '/login';
 const REGISTER = '/register';
 const recipeRouter = require('./routers/recipes');
-const ingredientsRouter = require('./routers/ingredients');
 const userRouter = require('./routers/users');
 const loginRouter = require('./routers/login');
 const registerRouter = require('./routers/register');

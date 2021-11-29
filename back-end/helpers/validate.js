@@ -19,11 +19,13 @@ exports.isValidAuthenticationRequest = (user) => {
   if (!user.email.match(emRegex)) {
     return [false, "Please enter a valid email address."]
   } 
-  
-  const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
-  if (!user.password.match(pwRegex)) {
-    return [false, "Password must be a minimum six characters, and contain at least one uppercase letter, one lowercase letter, and one digit. Special characters are not allowed."]
+  if (user.password.length < 6) {
+    return [false, "Password must be a minimum six characters"]
   }
+  // const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+  // if (!user.password.match(pwRegex)) {
+  //   return [false, "Password must be a minimum six characters, and contain at least one uppercase letter, one lowercase letter, and one digit. Special characters are not allowed."]
+  // }
   return [true, "This is a valid request."];
 }
 
