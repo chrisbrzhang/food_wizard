@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {useLocation, useParams } from "react-router";
 import axios from "axios";
-import { FormControl, Form, Button, Alert } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 
 const UpdateUserPage = () => {
     const location = useLocation();
@@ -34,7 +34,7 @@ const UpdateUserPage = () => {
 
 
     const changepw = () => {
-        if (newpass.length < 1 && newpass != reconpass) {
+        if (newpass.length < 1 && newpass !== reconpass) {
             alert("Passwords do not match")
         } else {
             const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
@@ -60,7 +60,7 @@ const UpdateUserPage = () => {
                   "Access-Control-Allow-Origin": "*"
               }
           }).then((response) => {
-              if (response.data.success == false) {
+              if (response.data.success === false) {
                   alert("old password doesnt not match")
               }
               else {

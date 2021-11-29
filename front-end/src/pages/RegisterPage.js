@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FormControl, Form, Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 
 const RegisterPage = () => {
     const [email, setemail] = useState('');
@@ -22,7 +22,7 @@ const RegisterPage = () => {
                 }
             }).then((response) => {
                 console.log(response.data)
-                if (response.data.success == false) {
+                if (response.data.success === false) {
                     alert(response.data.message)
                 }
                 else {

@@ -18,7 +18,7 @@ const AdminPage = () => {
                   "Access-Control-Allow-Origin": "*"
               }
           }).then((response) => {
-              if (response.data.success == false) {
+              if (response.data.success === false) {
                   alert(response.data.message)
               }
               else {
@@ -49,7 +49,7 @@ const AdminPage = () => {
         });
     }
 
-    if (data.Email == "admin@gmail.com") {
+    if (data.Email === "admin@gmail.com") {
         window.onload = getAllRequests();
         return (
             <React.Fragment>

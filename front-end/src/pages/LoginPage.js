@@ -11,7 +11,7 @@ const LoginPage = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (data.length != 0) {
+        if (data.length !== 0) {
             redirectUserPage()
         }
     }, [data])
@@ -29,7 +29,7 @@ const LoginPage = () => {
                   "Access-Control-Allow-Origin": "*"
               }
           }).then((response) => {
-              if (response.data.success == false) {
+              if (response.data.success === false) {
                   alert(response.data.message)
               }
               else {

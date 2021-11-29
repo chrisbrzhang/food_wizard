@@ -50,7 +50,7 @@ const UserPage = () => {
         let li = document.createElement("li");
         let text = document.getElementById('ingredients_area').value.trim();
         document.getElementById('ingredients_area').value = '';
-        if (text.length == 0) {
+        if (text.length === 0) {
             alert("Field cannot be empty");
             // gets out of the function
             return
@@ -77,7 +77,7 @@ const UserPage = () => {
         axios.post(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}/batch`, {"list": ingredients}, {headers})
         .then((response) => {
             console.log(response)
-            if (response.data.success == false) {
+            if (response.data.success === false) {
                 alert(response.data.message)
            
             }
