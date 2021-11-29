@@ -4,7 +4,6 @@ import axios from "axios";
 import {Form, Button} from "react-bootstrap";
 
 const LoginPage = () => {
-
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [data, setData] = useState([])
@@ -13,14 +12,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (data.length != 0) {
-            console.log(data)
-            if (data.Email == "admin@gmail.com") {
-                redirectAdminPage()
-            }
-            else {
-                redirectUserPage()
-            }
-            // redirectPage()
+            redirectUserPage()
         }
     }, [data])
 
@@ -41,14 +33,13 @@ const LoginPage = () => {
                   alert(response.data.message)
               }
               else {
-                setData(response.data)
-                console.log(response.data)
+                setData(response.data);
+                localStorage.setItem("token", response.data.token);
               }
           }).catch((error)=> {
               console.log(error)
           })
     }
-
 
     const redirectUserPage = () => {
         navigate(`/user/${data.Id}`, 
@@ -56,15 +47,6 @@ const LoginPage = () => {
             state: {data: data}
         })
     }
-
-    const redirectAdminPage = () => {
-        navigate('/admin', 
-        {
-            state: {data: data}
-        })
-    }
-
-    
 
     return (
         <React.Fragment>

@@ -3,11 +3,28 @@ import React, { useState } from 'react';
 // import axios from 'axios';
 
 const HomePage = () => {
-    return (
-    <React.Fragment>
-    <div className='Home'>
-        <h1> Welcome to Jakob and friends </h1>
-    </div>
-    </React.Fragment>
-    )};
+
+
+    if (localStorage.getItem("token") != null) {
+        return (
+            <React.Fragment>
+            <div className='Home'>
+                <h1> Welcome to Recipe Wizard! </h1>
+            </div>
+            </React.Fragment>
+            )
+    } else {
+        return (
+            <React.Fragment>
+            <div className='Home'>
+                <form>
+                    <h1> Welcome to Recipe Wizard! </h1>
+                    <p><a href="/login">Log in</a> or <a href="/register">Create an account</a> to get started!</p>
+                </form>
+                <div id="recipes"></div>
+            </div>
+            </React.Fragment>
+        );
+    }
+};
 export default HomePage;

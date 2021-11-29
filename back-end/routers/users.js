@@ -18,8 +18,7 @@ router.put(ID, async (req, res) => {
 
   if (valid[0]) {
     let json = req.body;
-    console.log(json, q.tables.USER)
-    const msg = await dbFunc.updateUser(req.params.id, json.Password, q.tables.USER);
+    const msg = await dbFunc.updateUser(req.params.id, json.password, q.tables.USER);
     let output;
     if (msg[0]) {
       output = {
@@ -60,7 +59,6 @@ router.get(ROOT, (req, res) => {
 });
 
 router.get(ID, async (req, res) => {
-  console.log(req)
   const msg = await dbFunc.checkIfIdExistsInTable(req.params.id, q.tables.USER);
   let output;
   if (msg[0]) {
