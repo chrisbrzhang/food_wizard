@@ -1,58 +1,88 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router";
-import { Form, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import axios from "axios";
 
-const RecipesPage = () => {
 
+const RecipesPage = () => {
+ 
     const [recipeIds, setRecipeIds] = useState([]);
     const [recipes, setRecipes] = useState([]);
-    const headers = { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Authorization': `Bearer ${localStorage.getItem("token")}`}
+    const [token, setToken] = useState('')
     const {id} = useParams();
+    const location = useLocation();
+
 
     useEffect(() => {
+        console.log(token)
+        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${token}`}
+        console.log(headers)
         axios.get(`http://localhost:8888/users/${id}/recipes`, {headers})
         .then((response) => {
-            console.log(response.data);
             setRecipeIds(response.data);
-            console.log(recipeIds);
         }).catch((err) => {
             console.log(err);
         })
+    }, [token])
+
+    useEffect(() => {
+        setToken(location.state.tkn);
     }, []);
 
     useEffect(() => {
-        recipeIds.forEach(recipe => {
+        console.log(recipeIds)
+        setRecipes(getSavedRecipes())
+    },[recipeIds])
+
+    useEffect(()=> {
+        console.log(recipes)
+    }, [recipes])
+
+    const getSavedRecipes = () => {
+        let temp_list = []
+        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${token}`}
+        console.log(headers)
+        recipeIds.forEach(recipe=> {
             axios.get(`http://localhost:8888/recipes/${recipe.RecipeId}`, {headers})
             .then((response) => {
-                let myRecipe = response.data.recipe;
-                recipes.push(myRecipe)
+                temp_list.push(response.data.recipe)
             }).catch((err) => {
                 console.log(err);
             })
-        });
-    }, [recipeIds]);
+        })
+        console.log("This is temp list", temp_list)
+        return temp_list;
+    }
+
+    const deleteRecipe = (recipe_id) => {
+        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${token}`}
+        console.log(headers)
+        axios.delete(`http://localhost:8888/users/${id}/recipes/${recipe_id}`, {headers}).then((response)=> {
+            console.log(response, "DELETED RECIPE")
+        }).catch((err) => {console.log(err)})
+    }
 
     return (
         <React.Fragment>
-            <table>
+            <h1> Deleting recipes </h1>
+            <table id="the_table">
                 <thead>
                     <th>Title</th>
                     <th>Description</th>
                 </thead>
                 <tbody>
-                    {
+                    {   
                         recipes.map((item) => (
                             <tr key={item.Id}>
                             <td> {item.Title} </td>
-                            <td> {item.Description} </td>
-                            {/* <Button variant="primary" type="button" onClick={() => saveRecipe(item.Id)}> Save recipe </Button> */}
+                            <td> {item.Description} </td> 
+                            <Button variant="primary" type="button" onClick={() => deleteRecipe(item.Id)}> Save recipe </Button>
                             </tr>
                         ))
                     }
                 </tbody>
             </table>
+
         </React.Fragment>
     );
 }

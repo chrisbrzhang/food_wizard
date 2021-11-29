@@ -116,12 +116,17 @@ const UserPage = () => {
         })
     }
 
+    const viewSavedRecipes = () => {
+        navigate(`/user/${id}/recipes`,
+        {
+            state: {tkn: dt.token}
+        })
+    }
+
     return (
         <React.Fragment>
             <div className='Home'>
                 <h1> Welcome {dt.Email} </h1>
-                <p> {String(dt.token)} </p>
-                <p> this is the id: {id} </p>
                 <ol id="list_of_ingredients"/>
                 <textarea id="ingredients_area"/>
                 <Form>
@@ -152,6 +157,11 @@ const UserPage = () => {
             <Form>
                 <Button variant="primary" type="button" onClick= {() => changePw()}>
                     Change Password
+                </Button>
+            </Form>
+            <Form>
+                <Button variant="primary" type="button" onClick= {() => viewSavedRecipes()}>
+                    View Recipes
                 </Button>
             </Form>
 

@@ -25,7 +25,6 @@ import AdminPage from './pages/AdminPage';
 import UserPage from './pages/UserPage';
 import UpdateUserPage from './pages/UpdateUserPage';
 import RecipesPage from './pages/RecipesPage';
-import InstructionsPage from './pages/InstructionsPage';
 
 
 export default function App() {
