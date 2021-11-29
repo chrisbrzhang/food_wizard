@@ -34,7 +34,7 @@ const LoginPage = () => {
               }
               else {
                 setData(response.data);
-                localStorage.setItem("token", data.token);
+                localStorage.setItem("token", response.data.token);
               }
           }).catch((error)=> {
               console.log(error)
