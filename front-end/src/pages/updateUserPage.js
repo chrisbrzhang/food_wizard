@@ -40,7 +40,7 @@ const UpdateUserPage = () => {
             const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
             console.log(headers)
             const password = {"Password": newpass}
-            axios.put(`http://localhost:8888/users/${id}`, password, {headers}).then((response)=> {
+            axios.put(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}`, password, {headers}).then((response)=> {
                 console.log("This is the response", response)   
 
             }).catch((err) => {
@@ -50,7 +50,7 @@ const UpdateUserPage = () => {
         }
     }
     const confirmOldpass = () => {
-        axios.post('http://localhost:8888/login', {
+        axios.post('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/login', {
             "email": email,
             "password": oldpass
           },

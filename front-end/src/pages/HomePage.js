@@ -17,10 +17,10 @@ const HomePage = () => {
         return (
             <React.Fragment>
             <div className='Home'>
-                <form>
+                {/* <form> */}
                     <h1> Welcome to Recipe Wizard! </h1>
-                    <p><a href="/login">Log in</a> or <a href="/register">Create an account</a> to get started!</p>
-                </form>
+                    {/* <p><a href="/login">Log in</a> or <a href="/register">Create an account</a> to get started!</p> */}
+                {/* </form> */}
                 <div id="recipes"></div>
             </div>
             </React.Fragment>

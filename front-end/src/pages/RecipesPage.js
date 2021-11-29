@@ -17,7 +17,7 @@ const RecipesPage = () => {
         console.log(token)
         const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${token}`}
         console.log(headers)
-        axios.get(`http://localhost:8888/users/${id}/recipes`, {headers})
+        axios.get(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}/recipes`, {headers})
         .then((response) => {
             setRecipeIds(response.data);
         }).catch((err) => {
@@ -43,7 +43,7 @@ const RecipesPage = () => {
         const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${token}`}
         console.log(headers)
         recipeIds.forEach(recipe=> {
-            axios.get(`http://localhost:8888/recipes/${recipe.RecipeId}`, {headers})
+            axios.get(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/recipes/${recipe.RecipeId}`, {headers})
             .then((response) => {
                 temp_list.push(response.data.recipe)
             }).catch((err) => {
@@ -57,7 +57,7 @@ const RecipesPage = () => {
     const deleteRecipe = (recipe_id) => {
         const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${token}`}
         console.log(headers)
-        axios.delete(`http://localhost:8888/users/${id}/recipes/${recipe_id}`, {headers}).then((response)=> {
+        axios.delete(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}/recipes/${recipe_id}`, {headers}).then((response)=> {
             console.log(response, "DELETED RECIPE")
         }).catch((err) => {console.log(err)})
     }

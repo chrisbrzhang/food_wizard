@@ -74,7 +74,7 @@ const UserPage = () => {
     const post_ingredients = () => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${dt.token}`}
         console.log(headers)
-        axios.post(`http://localhost:8888/users/${id}/batch`, {"list": ingredients}, {headers})
+        axios.post(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}/batch`, {"list": ingredients}, {headers})
         .then((response) => {
             console.log(response)
             if (response.data.success == false) {
@@ -96,7 +96,7 @@ const UserPage = () => {
     const suggest_recipe = () => {
         const headers = { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Authorization': `Bearer ${dt.token}`}
         console.log("THIS IS HEADERS ", headers)
-        axios.get(`http://localhost:8888/users/${id}/suggested`, {headers})
+        axios.get(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}/suggested`, {headers})
         .then((response)=> {
             console.log(response.data);
             setRecipe(response.data)
@@ -108,7 +108,7 @@ const UserPage = () => {
     const saveRecipe = (recipe_id) => {
         const headers = { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Authorization': `Bearer ${dt.token}`}
         console.log(recipe_id);
-        axios.post(`http://localhost:8888/users/${id}/recipes`, {"recipeId": recipe_id}, {headers})
+        axios.post(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}/recipes`, {"recipeId": recipe_id}, {headers})
         .then((response) => {
             console.log(response)
         }).catch((err) =>{

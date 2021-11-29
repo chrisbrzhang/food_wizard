@@ -11,7 +11,7 @@ const RegisterPage = () => {
 
     const createUser = () => {
 
-        axios.post('http://localhost:8888/register', {
+        axios.post('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/register', {
             "email": email,
             "password": password
         },

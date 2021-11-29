@@ -19,7 +19,7 @@ const LoginPage = () => {
     const loginUser = () => {
         console.log("Login User")
 
-        axios.post('http://localhost:8888/login', {
+        axios.post('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/login', {
             "email": email,
             "password": password
           },

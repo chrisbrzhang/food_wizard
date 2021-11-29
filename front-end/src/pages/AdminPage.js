@@ -8,7 +8,7 @@ const AdminPage = () => {
     const [password, setPassword] = useState('')
 
     function checkAdmin() {
-        axios.post('http://localhost:8888/login', {
+        axios.post('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/login', {
             "email": email,
             "password": password
           },
@@ -31,7 +31,7 @@ const AdminPage = () => {
 
     // get number of requests for post/id and get/id, see recipes.js
     function getAllRequests() {
-        axios.get('https://jakobandjonny.a2hosted.com/COMP4537/back-end/recipes/requests', 
+        axios.get('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/recipes/requests', 
         {
             headers: {
                 "Authorization": "Bearer " + data.token,
