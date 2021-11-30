@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 29, 2021 at 12:44 AM
+-- Generation Time: Nov 29, 2021 at 11:57 PM
 -- Server version: 10.3.31-MariaDB-cll-lve
 -- PHP Version: 7.3.32
 
@@ -151,6 +151,18 @@ CREATE TABLE `SavedRecipe` (
   `UserId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `SavedRecipe`
+--
+
+INSERT INTO `SavedRecipe` (`Id`, `RecipeId`, `UserId`) VALUES
+(1, 1, 4),
+(2, 3, 4),
+(3, 2, 6),
+(4, 2, 8),
+(5, 1, 8),
+(6, 1, 13);
+
 -- --------------------------------------------------------
 
 --
@@ -169,9 +181,24 @@ CREATE TABLE `User` (
 --
 
 INSERT INTO `User` (`Id`, `Email`, `Token`, `Password`) VALUES
-(1, 'jakob@fipke.ca', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqYWtvYkBmaXBrZS5jYSIsImlhdCI6MTYzODE3MDkzNiwiZXhwIjoxNjM4Nzc1NzM2fQ.lNTUtmPrBAZfxsyV3YVer39mAOaM_-ZWOatqZdVy4gI', '$2b$10$L8HTBP8z32EcEpqZccxjH.v0IsYKRTfXHxS.vCaMV19KwzFQNUcF2'),
-(2, 'hello@hello.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJoZWxsb0BoZWxsby5jb20iLCJpYXQiOjE2MzgxNzE2MTAsImV4cCI6MTYzODc3NjQxMH0.ZzWJ-MLgTrsn4dGOjFMkqDKpz9ZSF_WeVPkzyfxSTNM', '$2b$10$xXP5d9wY111VflaCBn8FnehXTj3xzJxtfc6KwJB4gTKtPVj/nbxyi'),
-(3, 'admin@gmail.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2MzgxNzE3MjgsImV4cCI6MTYzODc3NjUyOH0.TVvcyrskRFcCl0HqaPe3VzSwcCYXqxEQHIckr8XfdAQ', '$2b$10$DQ3Z3RbHg4XaoGwdl.XXfOxfDhdPIqctYJCfV9fZNV2j3olaDk68C');
+(1, 'jakob@fipke.ca', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqYWtvYkBmaXBrZS5jYSIsImlhdCI6MTYzODIyMjI0MCwiZXhwIjoxNjM4ODI3MDQwfQ.9pRnUbKMgf3NC7cwSqAG6LWEB1pZBJMMzF_FXjRSKk0', '$2b$10$bSi79DBqLG5b71f3nZB9vOEEthcK1lPDZol7vGmmbVwOqtL/rNsl2'),
+(2, 'hello@hello.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJoZWxsb0BoZWxsby5jb20iLCJpYXQiOjE2MzgxNzIwOTEsImV4cCI6MTYzODc3Njg5MX0.3nBGGO43rlZJ2upS8TJeAoebZSwnUsMj8_Xy2no8mLk', '$2b$10$xXP5d9wY111VflaCBn8FnehXTj3xzJxtfc6KwJB4gTKtPVj/nbxyi'),
+(3, 'admin@gmail.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2MzgyNTQ4NzIsImV4cCI6MTYzODg1OTY3Mn0.AWNu6LTwszFh1w7cBgFplIiG4JnlKbZHZCkJb_GmVRk', '$2b$10$DQ3Z3RbHg4XaoGwdl.XXfOxfDhdPIqctYJCfV9fZNV2j3olaDk68C'),
+(4, 'bobby@gmail.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJib2JieUBnbWFpbC5jb20iLCJpYXQiOjE2MzgxNzMwMzIsImV4cCI6MTYzODc3NzgzMn0.GG4Mj-8vJvghU4M3vuJ0ixsfNy62WWrkzaH_ntZfxPM', '$2b$10$zhWYN1ADBuSPhQf7JhwcOuHEnjAcdZRmk/LlgOC2NmXpxRgo38gD2'),
+(5, 'b@b.b', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiQGIuYiIsImlhdCI6MTYzODE3MjY5MywiZXhwIjoxNjM4Nzc3NDkzfQ.aOIuBTZ_P_pfz6x58jfWthXL8JPNfutkMzNQgLYrdbo', '$2b$10$we6p6MFP7xnUrtxAmLI/H.k0xmYnZP2idMHWP1pD1jkfEkGDD1ZVy'),
+(6, 'barneysmom@fuckyou.ca', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYXJuZXlzbW9tQGZ1Y2t5b3UuY2EiLCJpYXQiOjE2MzgxNzM3NjYsImV4cCI6MTYzODc3ODU2Nn0.5s9KAmiUODryNboBmleGEOcJiKcDP18iDcLOqvDmHZI', '$2b$10$/GuEr1D9e7eweMnS57F2mOscFkBJ15PgwXwIJqKmP2H9r/h8nxncS'),
+(7, 'test@test.ca', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY2EiLCJpYXQiOjE2MzgxNzc0NDMsImV4cCI6MTYzODc4MjI0M30.c6RWqaaW835OgY1jpr2lVbJiyrJVFwR9kzFnACPRTaU', '$2b$10$iPCt/UrK5Vjvn2z8ceoL.udE.FixoLVJVLtnxX6.8Q68X/d9u1u22'),
+(8, 'a@a.a', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhQGEuYSIsImlhdCI6MTYzODE3NDE3MiwiZXhwIjoxNjM4Nzc4OTcyfQ.4ZpXp1woPQcK_TsnqK8cRwbiojsvX7oZLzgu8MTiozM', '$2b$10$Yr858iZVyuvDshWQ/x/d4ueG3Lg0xcXk9AtAM0Cx6qYMRdhh9Q/1m'),
+(9, 'test@mail.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwiaWF0IjoxNjM4MTc2MjA0LCJleHAiOjE2Mzg3ODEwMDR9._rD1zJdYcA6AnpuUIgRzkcMTNOEAkezKrsk8p53_Q_s', '$2b$10$d2HchjqsYtKMpWQFFdR.sOWhCr0lx3xNW6bzgklvKKhFaWcqzStYW'),
+(10, 'a@a.ama', NULL, '$2b$10$7eoyCzQ5u3ww/ZLQJOyH6uP.I3BC2kYCeXLwknSva.SVrIjuKHD/q'),
+(11, 'abc@gmail.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYmNAZ21haWwuY29tIiwiaWF0IjoxNjM4MjE4ODg4LCJleHAiOjE2Mzg4MjM2ODh9.twHNXRtNky5JyvnCPxxrrZpcKkgtgsUW3ykFehOjCs0', 'undefined'),
+(12, 'abcd@gmail.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYmNkQGdtYWlsLmNvbSIsImlhdCI6MTYzODIxODkzOSwiZXhwIjoxNjM4ODIzNzM5fQ.1lYbm6ZleMQ2st8R6MXVvInEoGMoql55vsnmrlCFdbA', '$2b$10$jNjSh9Au2pMeJdTnTq1mteZoTbs6/9T4RgzcR3M5j/.vKTsieLTgC'),
+(13, 'bobby1@gmail.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJib2JieTFAZ21haWwuY29tIiwiaWF0IjoxNjM4MjE5Mjg3LCJleHAiOjE2Mzg4MjQwODd9.fKnY7_gGwGKVaWawFeROayZgZTByRcV5EnsaAEkqwME', 'undefined'),
+(14, 'hello@gmail.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJoZWxsb0BnbWFpbC5jb20iLCJpYXQiOjE2MzgyMTk2ODEsImV4cCI6MTYzODgyNDQ4MX0.B_J8uua1oHZ3839gRN_UdM7NUflCMevETiZYktaZ85k', 'undefined'),
+(15, 'jakob@taze.ca', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqYWtvYkB0YXplLmNhIiwiaWF0IjoxNjM4MjIxODAzLCJleHAiOjE2Mzg4MjY2MDN9.HTtyqyILrmXeq4gRJHpJ7AagN4J04LkmJLJkocPS720', 'undefined'),
+(16, 'c@c.c', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjQGMuYyIsImlhdCI6MTYzODI0MDg0MSwiZXhwIjoxNjM4ODQ1NjQxfQ.lZyobb1zgggoBTi9KO8Mn0gFsXgwhA1SquZsd1QWhNY', '$2b$10$Yi4OJ/DvKhYQeOha.AhxhOOP716wTE3tNWmHlEEtIgYxbWas6Ui7.'),
+(17, 'francis@gmail.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmcmFuY2lzQGdtYWlsLmNvbSIsImlhdCI6MTYzODI0MjAwNSwiZXhwIjoxNjM4ODQ2ODA1fQ._7xaBg8ZKELCw6MrvZqkSlDLw4Z8p2uRGvsvrov37Mk', '$2b$10$CQ1XIwABuP1Bbw7dzc/EVu53Fy96/VixET3lBPQQ9E4AKwLDKkS4a'),
+(18, 'new@jakob.ca', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJuZXdAamFrb2IuY2EiLCJpYXQiOjE2MzgyNTUyNzcsImV4cCI6MTYzODg2MDA3N30.387gUNBYYPSNouLeA8crwE9_yVRSiThSva0t6Ph6S8o', '$2b$10$ao./pd/EzSN.rE9P8TCEPe35DIwXYFWA5.uCFcCuE7KGE4YVME5tm');
 
 -- --------------------------------------------------------
 
@@ -191,7 +218,50 @@ CREATE TABLE `UserIngredient` (
 
 INSERT INTO `UserIngredient` (`Id`, `Name`, `UserId`) VALUES
 (1, 'banana', 1),
-(2, 'cinnamon', 1);
+(2, 'cinnamon', 1),
+(3, 'chicken', 4),
+(4, 'bread', 4),
+(5, 'chicken', 1),
+(6, 'bacon', 4),
+(7, 'cheese', 4),
+(8, 'egg', 6),
+(9, 'flour', 7),
+(10, 'egg', 7),
+(11, 'flour', 8),
+(12, 'egg', 8),
+(13, 'flour', 7),
+(14, 'egg', 7),
+(15, 'SELECT *', 7),
+(16, 'flour', 7),
+(17, 'egg', 7),
+(18, 'SELECT *', 7),
+(19, 'SELECT * FROM Users WHERE UserId = 105 OR 1=1;', 7),
+(20, '&lt;b&gt;Hello&lt;/b&gt;', 8),
+(21, 'water', 7),
+(22, '&lt;b&gt;Hello&lt;/b&gt;', 8),
+(23, 'pasta', 8),
+(24, '&lt;b&gt;Hello&lt;/b&gt;', 8),
+(25, 'pasta', 8),
+(26, '&lt;b&gt;Hello&lt;/b&gt;', 8),
+(27, 'pasta', 8),
+(28, '??????????????????????????????????????????????????', 8),
+(29, '??????????????????????????????????????????????????', 8),
+(30, '10; SELECT * FROM users --', 8),
+(31, '10; SELECT * FROM users --', 8),
+(32, 'chicken', 1),
+(33, 'carrot', 9),
+(34, 'Test', 7),
+(35, 'asdf', 11),
+(36, 'asdf', 11),
+(37, 'lololo', 11),
+(38, 'af', 11),
+(39, 'b', 11),
+(40, 'c', 11),
+(41, 'chicken', 13),
+(42, 'bacon', 13),
+(43, 'bacon', 14),
+(44, 'cheese', 14),
+(45, 'butter', 18);
 
 --
 -- Indexes for dumped tables
@@ -264,19 +334,19 @@ ALTER TABLE `RecipeIngredient`
 -- AUTO_INCREMENT for table `SavedRecipe`
 --
 ALTER TABLE `SavedRecipe`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `User`
 --
 ALTER TABLE `User`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `UserIngredient`
 --
 ALTER TABLE `UserIngredient`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- Constraints for dumped tables
