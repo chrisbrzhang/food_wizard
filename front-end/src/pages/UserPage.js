@@ -47,7 +47,7 @@ const UserPage = () => {
     const changePw = () => {
         navigate(`/user/${dt.Id}/update`, 
         {
-            state: {tkn: location.state.data.token, email: dt.Email}
+            state: {dt: location.state.data}
         })
     }
 
@@ -146,7 +146,7 @@ const UserPage = () => {
     const viewSavedRecipes = () => {
         navigate(`/user/${id}/recipes`,
         {
-            state: {tkn: dt.token}
+            state: {data: location.state.data}
         })
     }
 

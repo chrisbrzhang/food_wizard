@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router";
+import { useLocation, useParams, useNavigate } from "react-router";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import { render } from "@testing-library/react";
+
 
 const URL = 'http://localhost:8888'
 
 
 
 const RecipesPage = () => {
+    const navigate = useNavigate();
  
     const [recipeIds, setRecipeIds] = useState([]);
     const [recipes, setRecipes] = useState([]);
     const {id} = useParams();
     const location = useLocation();
+    const [dt, setDt] = useState([])
 
     useEffect(() => {
-        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${location.state.tkn}`}
+        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${location.state.data.token}`}
+        setDt(location.state.data)
         console.log(headers)
         axios.get(`${URL}/users/${id}/recipes`, {headers})
         .then((response) => {
@@ -26,6 +30,10 @@ const RecipesPage = () => {
             console.log(err);
         })
     }, [])
+
+    useEffect(()=> {
+        console.log(dt)
+    }, [dt])
 
 
 
@@ -39,7 +47,7 @@ const RecipesPage = () => {
     }, [recipes])
 
     const getSavedRecipes = () => {
-        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${location.state.tkn}`}
+        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${location.state.data.token}`}
         console.log(headers)
         recipeIds.forEach(recipe=> {
             console.log(recipe)
@@ -53,6 +61,14 @@ const RecipesPage = () => {
             })
         })
     }
+
+    const back_button = () => {
+        navigate(`/user/${dt.Id}`, 
+        {
+            state: {data: dt}
+        })
+    }
+    
     // const deleteRecipeRow = (recipe_id) => {
     //     let recipes_list = [...this.state.recipes]
     //     recipes_list.splice(recipe_id, 1)
@@ -60,7 +76,7 @@ const RecipesPage = () => {
     // }
 
     const deleteRecipe = (recipe_id) => {
-        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${location.state.tkn}`}
+        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${location.state.data.token}`}
         console.log(headers)
         console.log(recipe_id)
         axios.delete(`${URL}/users/${id}/recipes/${recipe_id}`, {headers}).then((response)=> {
@@ -96,6 +112,9 @@ const RecipesPage = () => {
                     }
                 </tbody>
             </table>
+            <Button variant="primary" type="button" onClick={()=> back_button()}>
+                    Back Button
+            </Button>
 
         </React.Fragment>
     );

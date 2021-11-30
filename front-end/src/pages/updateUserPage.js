@@ -2,17 +2,19 @@ import React, { useState, useEffect } from "react";
 import {useLocation, useParams } from "react-router";
 import axios from "axios";
 import { Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 const URL = 'http://localhost:8888'
 
 const UpdateUserPage = () => {
     const location = useLocation();
+    const [dt, setDt] = useState([])
     const [newpass, setNewpass] = useState('')
     const [reconpass, setReconpass] = useState('')
     const [oldpass, setOldpass] = useState('')
-    const [email, setEmail] = useState('')
-    const [token, setToken] = useState('')
     const {id} = useParams();
+    const [token, setToken] = useState('')
+    const navigate = useNavigate()
 
     useEffect(() => {
         console.log(newpass);
@@ -25,8 +27,7 @@ const UpdateUserPage = () => {
         console.log(oldpass);
     }, [oldpass])
     useEffect(()=> {
-        setEmail(location.state.email);
-        console.log(email)
+        setDt(location.state.dt)
     },[])
 
     useEffect(() => {
@@ -38,7 +39,7 @@ const UpdateUserPage = () => {
         if (newpass.length < 1 && newpass !== reconpass) {
             alert("Passwords do not match")
         } else {
-            const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
+            const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${location.state.dt.token}`}
             console.log(headers)
             const password = {"password": newpass}
             axios.put(`${URL}/users/${id}`, password, {headers}).then((response)=> {
@@ -52,7 +53,7 @@ const UpdateUserPage = () => {
     }
     const confirmOldpass = () => {
         axios.post(`${URL}/login`, {
-            "email": email,
+            "email": dt.email,
             "password": oldpass
           },
           {
@@ -72,6 +73,13 @@ const UpdateUserPage = () => {
             console.log(error)
             })
         };
+
+    const back_button = () => {
+        navigate(`/user/${dt.Id}`, 
+        {
+            state: {data: dt}
+        })
+    }
 
     return (
         <React.Fragment>
@@ -93,6 +101,9 @@ const UpdateUserPage = () => {
                     Submit
                 </Button>
             </Form>
+            <Button variant="primary" type="button" onClick={()=> back_button()}>
+                    Back Button
+                </Button>
         </React.Fragment>
     )
 }
