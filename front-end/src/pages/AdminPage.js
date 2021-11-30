@@ -8,9 +8,6 @@ const AdminPage = () => {
     const location = useLocation();
     const [requests, setRequests] = useState({})
 
-//     const [test] = useState({"value": 1,
-// "value2":2, "value3":3})
-
     useEffect(()=> {
         // setToken(location.state.data.token)
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${location.state.data.token}`}
@@ -26,32 +23,11 @@ const AdminPage = () => {
         });
     },[])
 
-    // useEffect(()=> {
-    //     console.log(token)  
-    //     if (token.length > 1) {
-    //         getUsers()
-    //     }
-    //     else{
-    //         console.log("invalid token")
-    //     }
-    // }, [token])
     useEffect(()=> {
         console.log(requests)
     },[requests])
 
-    // const getUsers = () => {
-    //     const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
-    //     axios.get(`${URL}/users/request`, {headers}
-    //     )
-    //     .then((response) => {
-    //         console.log(response)
-    //         setRequests(response.data)
-       
-    //     })
-    //     .catch(function (error) {
-    //         console.log(error);
-    //     });
-    // }
+  
 
     return (
             <React.Fragment>

@@ -16,6 +16,8 @@ const UserPage = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [ingredients, setIngredients] = useState([])
+    const [savedingredients, setsavedIngredients] = useState([])
+
 
     useEffect(() => {
         console.log(ingredients)
@@ -29,8 +31,13 @@ const UserPage = () => {
         }
         else {
             setDt(location.state.data)
+            saved_ingredients()
         }
     }, [])
+
+    useEffect(()=> {
+        console.log(savedingredients)
+    },[savedingredients])
 
     useEffect(()=> {
         console.log(recipe)
@@ -40,7 +47,7 @@ const UserPage = () => {
     const changePw = () => {
         navigate(`/user/${dt.Id}/update`, 
         {
-            state: {tkn: dt.token, email: dt.Email}
+            state: {tkn: location.state.data.token, email: dt.Email}
         })
     }
 
@@ -72,7 +79,7 @@ const UserPage = () => {
     }
 
     const post_ingredients = () => {
-        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${dt.token}`}
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${location.state.data.token}`}
         console.log(headers)
         axios.post(`${URL}/users/${id}/batch`, {"list": ingredients}, {headers})
         .then((response) => {
@@ -90,9 +97,31 @@ const UserPage = () => {
             console.log(error)
     })
 }
+    // button to save ingredients
+    const saved_ingredients = () => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${location.state.data.token}`}
+        axios.get(`${URL}/users/${id}/ingredients`, {headers})
+        .then((response) => {
+            setsavedIngredients(response.data)
+        })
+        .catch((err)=> {
+            console.log(err)
+        })
+    }
+// button to delete ingredients
+    const delete_saved_ingredients = (ingredient_id)=> {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${location.state.data.token}`}
+        axios.delete(`${URL}/users/${id}/ingredients/${ingredient_id}`, {headers})
+        .then((response) => {
+            console.log(response.data)
+        })
+        .catch((err)=> {
+            console.log(err)
+        })
+    }
 
     const suggest_recipe = () => {
-        const headers = { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Authorization': `Bearer ${dt.token}`}
+        const headers = { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Authorization': `Bearer ${location.state.data.token}`}
         console.log("THIS IS HEADERS ", headers)
         axios.get(`${URL}/users/${id}/suggested`, {headers})
         .then((response)=> {
@@ -104,7 +133,7 @@ const UserPage = () => {
     }
 
     const saveRecipe = (recipe_id) => {
-        const headers = { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Authorization': `Bearer ${dt.token}`}
+        const headers = { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Authorization': `Bearer ${location.state.data.token}`}
         console.log(recipe_id);
         axios.post(`${URL}/users/${id}/recipes`, {"recipeId": recipe_id}, {headers})
         .then((response) => {
@@ -149,6 +178,27 @@ const UserPage = () => {
                                 <Button variant="primary" type="button" onClick={() => saveRecipe(item.Id)}> Save recipe </Button>
                             </tr>
 
+                            )
+                        })
+                    }
+                </tbody>
+
+            </table>
+
+            <table id="user_ingredients_table">
+                <thead>
+                    <tr>
+                        <th>Saved Ingredients</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        savedingredients.map((item) => {
+                            return (
+                            <tr key={item.Id}>
+                                <td> {item.Name} </td>
+                                <Button variant="primary" type="button" onClick={() => delete_saved_ingredients(item.Id)}> Delete ingredient </Button>
+                            </tr>
                             )
                         })
                     }

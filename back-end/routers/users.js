@@ -337,16 +337,14 @@ router.delete(ID + SAVED_RECIPES + ID2, async (req, res) => {
 
     const userExists = await dbFunc.checkIfIdExistsInTable(id, q.tables.USER);
     const valid = await dbFunc.checkUserToken(id, req.headers.authorization.split(' ')[1]);
-    const saved = await dbFunc.checkIfIdExistsInTable(id2, q.tables.SAVED_RECIPE);
+    // const saved = await dbFunc.checkIfIdExistsInTable(id2, q.tables.SAVED_RECIPE);
 
     if (!valid[0]) {
       res.send('Invalid token.');
     } else if (!userExists[0]) {
       res.send('User does not exist.');
-    } else if (!saved[0]) {
-      res.send('That recipe is not saved');
     } else {
-      const sqlDeleteSavedRecipe = `DELETE FROM SavedRecipe WHERE Id = ${id2}`;
+      const sqlDeleteSavedRecipe = `DELETE FROM SavedRecipe WHERE RecipeId = ${id2} AND UserId = ${id}`;
       con.promise(sqlDeleteSavedRecipe)
         .then(result => {
           res.send("Recipe deleted.");

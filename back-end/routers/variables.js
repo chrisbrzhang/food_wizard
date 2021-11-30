@@ -11,7 +11,7 @@ let variables = {
     "single_user_saved_recipe_get": 0,
     "save_recipe_by_id_post": 0,
     "saved_recipe_delete": 0,
-    "suggested_recipe_get":0,
+    "suggested_recipe_get": 0,
 
     "create_new_user_post": 0,
 
