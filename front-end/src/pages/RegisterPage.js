@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FormControl, Form, Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 
 const RegisterPage = () => {
     const [email, setemail] = useState('');
@@ -11,7 +11,7 @@ const RegisterPage = () => {
 
     const createUser = () => {
 
-        axios.post('http://localhost:8888/register', {
+        axios.post('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/register', {
             "email": email,
             "password": password
         },
@@ -22,7 +22,7 @@ const RegisterPage = () => {
                 }
             }).then((response) => {
                 console.log(response.data)
-                if (response.data.success == false) {
+                if (response.data.success === false) {
                     alert(response.data.message)
                 }
                 else {

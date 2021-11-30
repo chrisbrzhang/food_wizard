@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {useLocation, useParams } from "react-router";
 import axios from "axios";
-import { FormControl, Form, Button, Alert } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 
 const UpdateUserPage = () => {
     const location = useLocation();
@@ -34,13 +34,13 @@ const UpdateUserPage = () => {
 
 
     const changepw = () => {
-        if (newpass.length < 1 && newpass != reconpass) {
+        if (newpass.length < 1 && newpass !== reconpass) {
             alert("Passwords do not match")
         } else {
             const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
             console.log(headers)
-            const password = {"Password": newpass}
-            axios.put(`http://localhost:8888/users/${id}`, password, {headers}).then((response)=> {
+            const password = {"password": newpass}
+            axios.put(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}`, password, {headers}).then((response)=> {
                 console.log("This is the response", response)   
 
             }).catch((err) => {
@@ -50,7 +50,7 @@ const UpdateUserPage = () => {
         }
     }
     const confirmOldpass = () => {
-        axios.post('http://localhost:8888/login', {
+        axios.post('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/login', {
             "email": email,
             "password": oldpass
           },
@@ -60,7 +60,7 @@ const UpdateUserPage = () => {
                   "Access-Control-Allow-Origin": "*"
               }
           }).then((response) => {
-              if (response.data.success == false) {
+              if (response.data.success === false) {
                   alert("old password doesnt not match")
               }
               else {

@@ -11,15 +11,19 @@ const LoginPage = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (data.length != 0) {
-            redirectUserPage()
+        if (data.length !== 0) {
+            if (data.Email === "admin@gmail.com") {
+                redirectAdminPage()
+            } else {
+                redirectUserPage()
+            }
         }
     }, [data])
 
     const loginUser = () => {
         console.log("Login User")
 
-        axios.post('http://localhost:8888/login', {
+        axios.post('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/login', {
             "email": email,
             "password": password
           },
@@ -29,7 +33,7 @@ const LoginPage = () => {
                   "Access-Control-Allow-Origin": "*"
               }
           }).then((response) => {
-              if (response.data.success == false) {
+              if (response.data.success === false) {
                   alert(response.data.message)
               }
               else {
@@ -43,6 +47,13 @@ const LoginPage = () => {
 
     const redirectUserPage = () => {
         navigate(`/user/${data.Id}`, 
+        {
+            state: {data: data}
+        })
+    }
+
+    const redirectAdminPage = () => {
+        navigate(`/admin`, 
         {
             state: {data: data}
         })

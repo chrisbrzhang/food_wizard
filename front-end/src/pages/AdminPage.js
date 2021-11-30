@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Form, Button} from "react-bootstrap";
 import axios from "axios";
+import { useLocation } from "react-router";
 
 const URL = 'https://jakobandjonny.a2hosted.com/COMP4537/back-end/'
 
@@ -11,7 +12,7 @@ const AdminPage = () => {
     
 
     function checkAdmin() {
-        axios.post('http://localhost:8888/login', {
+        axios.post('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/login', {
             "email": email,
             "password": password
           },
@@ -21,7 +22,7 @@ const AdminPage = () => {
                   "Access-Control-Allow-Origin": "*"
               }
           }).then((response) => {
-              if (response.data.success == false) {
+              if (response.data.success === false) {
                   alert(response.data.message)
               }
               else {
@@ -34,7 +35,7 @@ const AdminPage = () => {
 
     // get number of requests for post/id and get/id, see recipes.js
     function getAllRequests() {
-        axios.get('https://jakobandjonny.a2hosted.com/COMP4537/back-end/recipes/requests', 
+        axios.get('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/recipes/requests', 
         {
             headers: {
                 "Authorization": "Bearer " + data.token,
@@ -45,14 +46,13 @@ const AdminPage = () => {
         .then(function (response) {
             document.getElementById("recipeGetId").innerHTML = response.data["get"];
             document.getElementById("recipePostId").innerHTML = response.data["post"];
-            console.log(response);
         })
         .catch(function (error) {
             console.log(error);
         });
     }
 
-    if (data.Email == "admin@gmail.com") {
+    if (email === "admin@gmail.com") {
         window.onload = getAllRequests();
         return (
             <React.Fragment>
