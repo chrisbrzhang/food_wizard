@@ -28,7 +28,6 @@ const UserPage = () => {
         else {
             setDt(location.state.data)
         }
-
     }, [])
 
     useEffect(()=> {
@@ -86,12 +85,10 @@ const UserPage = () => {
                 alert("Ingredients added");
                 suggest_recipe()
             }
-            
         }).catch((error) => {
             console.log(error)
     })
 }
-
 
     const suggest_recipe = () => {
         const headers = { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Authorization': `Bearer ${dt.token}`}

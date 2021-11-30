@@ -19,7 +19,6 @@ const HomePage = () => {
             <div className='Home'>
                 <form>
                     <h1> Welcome to Recipe Wizard! </h1>
-                    <p><a href="/login">Log in</a> or <a href="/register">Create an account</a> to get started!</p>
                 </form>
                 <div id="recipes"></div>
             </div>

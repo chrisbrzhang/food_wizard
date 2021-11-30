@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import {Form, Button} from "react-bootstrap";
 import axios from "axios";
 
+const URL = 'https://jakobandjonny.a2hosted.com/COMP4537/back-end/'
+
 const AdminPage = () => {
     const [data, setData] = useState('');
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    
 
     function checkAdmin() {
         axios.post('http://localhost:8888/login', {
