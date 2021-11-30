@@ -4,6 +4,9 @@ const dbFunc = require('../helpers/database');
 
 const ROOT = '/';
 const MAX_SUGGESTED = 10;
+const REQUEST = "/request"
+let suggested_recipe_get = 0
+const variables = require('./variables')
 
 const titleCase = (str) => {
     return str.replace(/(?:^\w|[A-Z]|\b\w)/g, word => {
@@ -21,8 +24,17 @@ const lowerCase = (str) => {
 const router = express.Router({
     mergeParams: true
 });
+// localhost:8888/users/:id/suggested/request
+router.get(REQUEST, (_, res) => {
+    let output = {
+        "suggested_recipe_get": suggested_recipe_get,
+    }
+    res.send(output);
+  });
 
+// gets suggested recipes 
 router.get(ROOT, async (req, res) => {
+    variables.variables['suggested_recipe_get'] += 1
     let valid = await dbFunc.checkUserToken(req.params.id, req.headers.authorization.split(' ')[1]);
 
     if (valid[0]) {

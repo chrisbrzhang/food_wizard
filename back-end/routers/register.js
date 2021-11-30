@@ -5,11 +5,23 @@ const bcrypt = require('bcrypt');
 const dbFunc = require('../helpers/database')
 const v = require('../helpers/validate');
 const SALTS = 10;
-
 const ROOT = '/';
+const REQUEST = '/request'
+const variables = require('./variables')
 
+let create_new_user_post = 0
+
+router.get(REQUEST, (_, res) => {
+  let output = {
+      "create_new_user_post": create_new_user_post,
+  }
+  res.send(output);
+});
+
+// post create new user
 router.post(ROOT, async (req, res) => {
   let json = req.body;
+  variables.variables["create_new_user_post"] += 1
 
   let isValid = v.isValidAuthenticationRequest(json);
   if (!isValid[0]) {

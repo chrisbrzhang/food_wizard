@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 
+const URL = 'http://localhost:8888'
+
+
 const RegisterPage = () => {
     const [email, setemail] = useState('');
     const [password, setpassword] = useState('')
@@ -11,7 +14,7 @@ const RegisterPage = () => {
 
     const createUser = () => {
 
-        axios.post('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/register', {
+        axios.post(`${URL}/register`, {
             "email": email,
             "password": password
         },
@@ -58,11 +61,6 @@ const RegisterPage = () => {
                     Submit
                 </Button>
             </Form>
-            {/* <form>
-                <textarea onChange={(e) => setemail(e.target.value)}></textarea>
-                <textarea onChange={(e) => setpassword(e.target.value)}></textarea>
-                <button type="button" onClick={() => createUser()}> SUBMIT </button>
-            </form> */}
         </React.Fragment>
     )
 

@@ -2,15 +2,30 @@ const express = require('express');
 const router = express.Router();
 const con = require('../connection');
 const v = require('../helpers/validate');
+const variables = require('./variables')
 
 const ROOT = '/';
 const ID = '/:id';
-const REQUESTS = '/requests';
-let query_get_recipe = 0;
-let query_post_recipe = 0;
+let all_recipes_get = 0;
+let one_recipe_get = 0
+let recipe_post = 0
+const REQUEST = "/request"
 
+router.get(REQUEST, (_, res) => {
+    let output = {
+        "all_recipes_get": all_recipes_get,
+        "one_recipe_get": one_recipe_get,
+        "recipe_post": recipe_post
+    }
+    res.send(output);
+  });
+  
+
+
+// gets all recipes
 router.get(ROOT, (_, res) => {
     let query = 'SELECT * FROM Recipe;';
+    variables['all_recipes_get'] += 1;
 
     con.query(query, (err, result) => {
         if (err) {
@@ -31,18 +46,10 @@ router.get(ROOT, (_, res) => {
     });
 });
 
-// contains number of requests for get/id and post/id
-router.get(REQUESTS, (_, res) => {
-    let output = {
-        "get": query_get_recipe,
-        "post": query_post_recipe
-    }
-    res.send(output);
-});
-
+// gets one recipe by id
 router.get(ID, (req, res) => {
     let query = `SELECT * FROM Recipe WHERE Id = ${req.params.id};`;
-    query_get_recipe += 1;
+    variables.variables['one_recipe_get'] += 1;
 
     con.query(query, (err, result) => {
         if (err) {
@@ -73,6 +80,7 @@ router.get(ID, (req, res) => {
 
 router.post(ROOT, (req, res) => {
     let json = req.body;
+    variables.variables['recipe_post'] += 1
 
     let isValid = v.isValidRecipe(json);
     if (!isValid[0]) {

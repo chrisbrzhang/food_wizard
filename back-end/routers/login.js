@@ -6,21 +6,33 @@ const jwt = require('jsonwebtoken');
 const dbFunc = require('../helpers/database');
 const v = require('../helpers/validate');
 const con = require('../connection');
+let variables = require('./variables')
 
 const ROOT = '/';
 const tokenDuration = '7d';
+const REQUEST = '/request'
 
 const getToken = (email) => {
   return jwt.sign({ sub: email }, config.secret, { expiresIn: tokenDuration });
 }
 
-function omitPassword(user) {
+const omitPassword = (user)=> {
   const { Password, Token, ...userWithoutPassword } = user;
   return userWithoutPassword;
 }
 
+
+router.get(REQUEST, (_, res) => {
+  let output = {
+      "login_post": variables['login_post'],
+  }
+  res.send(output);
+});
+
+// post logs user in
 router.post(ROOT, async (req, res) => {
   let json = req.body;
+  variables.variables['login_post'] += 1
 
   let isValid = v.isValidAuthenticationRequest(json);
   if (!isValid[0]) {

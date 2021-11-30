@@ -3,35 +3,33 @@ import { useLocation, useParams } from "react-router";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 
+const URL = 'http://localhost:8888'
+
+
 
 const RecipesPage = () => {
  
     const [recipeIds, setRecipeIds] = useState([]);
     const [recipes, setRecipes] = useState([]);
-    const [token, setToken] = useState('')
     const {id} = useParams();
     const location = useLocation();
 
-
     useEffect(() => {
-        console.log(token)
-        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${token}`}
+        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${location.state.tkn}`}
         console.log(headers)
-        axios.get(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}/recipes`, {headers})
+        axios.get(`${URL}/users/${id}/recipes`, {headers})
         .then((response) => {
             setRecipeIds(response.data);
         }).catch((err) => {
             console.log(err);
         })
-    }, [token])
+    }, [])
 
-    useEffect(() => {
-        setToken(location.state.tkn);
-    }, []);
+
 
     useEffect(() => {
         console.log(recipeIds)
-        setRecipes(getSavedRecipes())
+        getSavedRecipes()
     },[recipeIds])
 
     useEffect(()=> {
@@ -39,25 +37,24 @@ const RecipesPage = () => {
     }, [recipes])
 
     const getSavedRecipes = () => {
-        let temp_list = []
-        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${token}`}
+        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${location.state.tkn}`}
         console.log(headers)
         recipeIds.forEach(recipe=> {
-            axios.get(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/recipes/${recipe.RecipeId}`, {headers})
+            axios.get(`${URL}/recipes/${recipe.RecipeId}`, {headers})
             .then((response) => {
-                temp_list.push(response.data.recipe)
+                // destructures the array and appends to response.data.recipe to the end of it
+                setRecipes(oldArr => [...oldArr, response.data.recipe]);
+                // temp_list.push(response.data.recipe)
             }).catch((err) => {
                 console.log(err);
             })
         })
-        console.log("This is temp list", temp_list)
-        return temp_list;
     }
 
     const deleteRecipe = (recipe_id) => {
-        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${token}`}
+        const headers = { "Content-Type": "application/json", 'Authorization': `Bearer ${location.state.tkn}`}
         console.log(headers)
-        axios.delete(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}/recipes/${recipe_id}`, {headers}).then((response)=> {
+        axios.delete(`${URL}/users/${id}/recipes/${recipe_id}`, {headers}).then((response)=> {
             console.log(response, "DELETED RECIPE")
         }).catch((err) => {console.log(err)})
     }
@@ -72,13 +69,18 @@ const RecipesPage = () => {
                 </thead>
                 <tbody>
                     {   
-                        recipes.map((item) => (
-                            <tr key={item.Id}>
-                            <td> {item.Title} </td>
-                            <td> {item.Description} </td> 
-                            <Button variant="primary" type="button" onClick={() => deleteRecipe(item.Id)}> Save recipe </Button>
-                            </tr>
-                        ))
+                          recipes.map((item) => {
+                            return (
+                                <div>
+                                <tr key={item.Id}>
+                                    <td> {item.Title} </td>
+                                    <td> {item.Description} </td>
+                                    <Button variant="primary" type="button" onClick={() => deleteRecipe(item.Id)}> Delete recipe </Button>
+                                </tr>
+                                </div>
+                            )}
+                        )
+                 
                     }
                 </tbody>
             </table>

@@ -1,106 +1,97 @@
 import React, { useState, useEffect } from "react";
-import {Form, Button} from "react-bootstrap";
 import axios from "axios";
 import { useLocation } from "react-router";
 
-const URL = 'https://jakobandjonny.a2hosted.com/COMP4537/back-end/'
+const URL = 'http://localhost:8888';
 
 const AdminPage = () => {
-    const [data, setData] = useState('');
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    
+    const location = useLocation();
+    const [requests, setRequests] = useState({})
 
-    function checkAdmin() {
-        axios.post('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/login', {
-            "email": email,
-            "password": password
-          },
-          {
-              headers: {
-                  "Content-Type": "application/json",
-                  "Access-Control-Allow-Origin": "*"
-              }
-          }).then((response) => {
-              if (response.data.success === false) {
-                  alert(response.data.message)
-              }
-              else {
-                setData(response.data);
-              }
-          }).catch((error)=> {
-              console.log(error)
-          })
-    }
+//     const [test] = useState({"value": 1,
+// "value2":2, "value3":3})
 
-    // get number of requests for post/id and get/id, see recipes.js
-    function getAllRequests() {
-        axios.get('https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/recipes/requests', 
-        {
-            headers: {
-                "Authorization": "Bearer " + data.token,
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
-        })
-        .then(function (response) {
-            document.getElementById("recipeGetId").innerHTML = response.data["get"];
-            document.getElementById("recipePostId").innerHTML = response.data["post"];
+    useEffect(()=> {
+        // setToken(location.state.data.token)
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${location.state.data.token}`}
+        axios.get(`${URL}/users/request`, {headers}
+        )
+        .then((response) => {
+            console.log(response)
+            setRequests(response.data)
+       
         })
         .catch(function (error) {
             console.log(error);
         });
-    }
+    },[])
 
-    if (email === "admin@gmail.com") {
-        window.onload = getAllRequests();
-        return (
+    // useEffect(()=> {
+    //     console.log(token)  
+    //     if (token.length > 1) {
+    //         getUsers()
+    //     }
+    //     else{
+    //         console.log("invalid token")
+    //     }
+    // }, [token])
+    useEffect(()=> {
+        console.log(requests)
+    },[requests])
+
+    // const getUsers = () => {
+    //     const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
+    //     axios.get(`${URL}/users/request`, {headers}
+    //     )
+    //     .then((response) => {
+    //         console.log(response)
+    //         setRequests(response.data)
+       
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //     });
+    // }
+
+    return (
             <React.Fragment>
                 <h1> Admin Page </h1>
-                
-                <table>
-                    <tr>
-                        <th>Method</th>
-                        <th>Endpoint</th>
-                        <th>Requests</th>
-                    </tr>
-                    <tr>
-                        <td>GET</td>
-                        <td>/recipes/id</td>
-                        <td id="recipeGetId"></td>
-                    </tr>
-                    <tr>
-                        <td>POST</td>
-                        <td>/recipes/id</td>
-                        <td id="recipePostId"></td>
-                    </tr>
-                </table>
+                <table id="the_table">
+                <thead>
+                    <th>Request URL</th>
+                    <th>Number of Requests</th>
+                </thead>
+                <tbody>
+                    {
+                        Object.entries(requests)
+                        .map(([key, value]) => 
+                        { return(
+                            <tr className="table-row">
+                                <td key={`${key}`}> {key} </td>
+                                <td key={`${value}`}> {value} </td>
+                            </tr>
+                        )
+
+                        })
+
+                        // Object.entries(test)
+                        // .map(([key, value])=> {
+                        //     <tr className="table-row">
+                        //         <td key={`${key}`}> {key} </td>
+                        //         <td key={`${value}`}> {value} </td>
+                        //     </tr>
+
+                        // })
+                    }
+           
+
+                </tbody>
+
+            </table>
             </React.Fragment>
+         
         )
-    } else {
-        return (
-            <React.Fragment>
-                <h1>Admin Page</h1>
-                <p>Please enter admin credentials to access this page.</p>
-                <Form>
-                    <Form.Group className="mb-3" controlId="formBasicEmail" onChange={(e)=> setEmail(e.target.value)}>
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicPassword" onChange={(e)=> setPassword(e.target.value)}>
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
-                    </Form.Group>
-                    <Button variant="primary" type="button" onClick= {() => checkAdmin()}>
-                        Submit
-                    </Button>
-                </Form>
-            </React.Fragment>
-        );
-    }
-
-}
+    };
 
 
 export default AdminPage;

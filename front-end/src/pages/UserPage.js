@@ -4,6 +4,8 @@ import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const URL = 'http://localhost:8888'
+
 
 const UserPage = () => {
 
@@ -18,7 +20,7 @@ const UserPage = () => {
     useEffect(() => {
         console.log(ingredients)
         post_ingredients()
-    },[ingredients])
+    }, [ingredients])
 
     useEffect(() => {
         if (location.state == null) {
@@ -31,7 +33,6 @@ const UserPage = () => {
     }, [])
 
     useEffect(()=> {
-        console.log("RECIPEEES")
         console.log(recipe)
         recipe.map((recipes)=> console.log(recipes.Title))
     },[recipe])
@@ -73,7 +74,7 @@ const UserPage = () => {
     const post_ingredients = () => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${dt.token}`}
         console.log(headers)
-        axios.post(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}/batch`, {"list": ingredients}, {headers})
+        axios.post(`${URL}/users/${id}/batch`, {"list": ingredients}, {headers})
         .then((response) => {
             console.log(response)
             if (response.data.success === false) {
@@ -93,7 +94,7 @@ const UserPage = () => {
     const suggest_recipe = () => {
         const headers = { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Authorization': `Bearer ${dt.token}`}
         console.log("THIS IS HEADERS ", headers)
-        axios.get(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}/suggested`, {headers})
+        axios.get(`${URL}/users/${id}/suggested`, {headers})
         .then((response)=> {
             console.log(response.data);
             setRecipe(response.data)
@@ -105,7 +106,7 @@ const UserPage = () => {
     const saveRecipe = (recipe_id) => {
         const headers = { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", 'Authorization': `Bearer ${dt.token}`}
         console.log(recipe_id);
-        axios.post(`https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1/users/${id}/recipes`, {"recipeId": recipe_id}, {headers})
+        axios.post(`${URL}/users/${id}/recipes`, {"recipeId": recipe_id}, {headers})
         .then((response) => {
             console.log(response)
         }).catch((err) =>{
@@ -122,30 +123,34 @@ const UserPage = () => {
 
     return (
         <React.Fragment>
-            <div className='Home'>
-                <h1> Welcome {dt.Email} </h1>
-                <ol id="list_of_ingredients"/>
-                <textarea id="ingredients_area"/>
-                <Form>
-                    <Button variant="primary" type="button" onClick={()=> add_ingredients()}> Add Ingredient </Button>
-                    <Button variant="primary" type="button" onClick={()=> query_ol()}> Suggest recipe </Button>
-                </Form>
-
-            </div>
+          
+            <h1> Welcome {dt.Email} </h1>
+            <ol id="list_of_ingredients"/>
+            <textarea id="ingredients_area"/>
+            <Form>
+                <Button variant="primary" type="button" onClick={()=> add_ingredients()}> Add Ingredient </Button>
+                <Button variant="primary" type="button" onClick={()=> query_ol()}> Suggest recipe </Button>
+            </Form>
+        
             <table id="the_table">
                 <thead>
-                    <th>Title</th>
-                    <th>Description</th>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                    </tr>
                 </thead>
                 <tbody>
                     {
-                        recipe.map((item) => (
+                        recipe.map((item) => {
+                            return (
                             <tr key={item.Id}>
-                            <td> {item.Title} </td>
-                            <td> {item.Description} </td>
-                            <Button variant="primary" type="button" onClick={() => saveRecipe(item.Id)}> Save recipe </Button>
+                                <td> {item.Title} </td>
+                                <td> {item.Description} </td>
+                                <Button variant="primary" type="button" onClick={() => saveRecipe(item.Id)}> Save recipe </Button>
                             </tr>
-                        ))
+
+                            )
+                        })
                     }
                 </tbody>
 
