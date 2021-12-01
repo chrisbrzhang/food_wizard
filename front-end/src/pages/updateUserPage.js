@@ -8,12 +8,12 @@ const URL = 'https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1'
 
 const UpdateUserPage = () => {
     const location = useLocation();
+    console.log(location.state.dt)
     const [dt, setDt] = useState([])
+    const [oldpass, setOldPass] = useState('')
     const [newpass, setNewpass] = useState('')
     const [reconpass, setReconpass] = useState('')
-    const [oldpass, setOldpass] = useState('')
     const {id} = useParams();
-    const [token, setToken] = useState('')
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -29,11 +29,6 @@ const UpdateUserPage = () => {
     useEffect(()=> {
         setDt(location.state.dt)
     },[])
-
-    useEffect(() => {
-        console.log(token)
-        changepw();
-    },[token])
 
     const changepw = () => {
         if (newpass.length < 1 && newpass !== reconpass) {
@@ -51,28 +46,6 @@ const UpdateUserPage = () => {
             });
         }
     }
-    const confirmOldpass = () => {
-        axios.post(`${URL}/login`, {
-            "email": dt.email,
-            "password": oldpass
-          },
-          {
-              headers: {
-                  "Content-Type": "application/json",
-                  "Access-Control-Allow-Origin": "*"
-              }
-          }).then((response) => {
-              if (response.data.success === false) {
-                  alert("old password doesnt not match")
-              }
-              else {
-                  alert("Password changed")
-                  setToken(response.data.token)
-              }
-        }).catch((error) => {
-            console.log(error)
-            })
-        };
 
     const back_button = () => {
         navigate(`/user/${dt.Id}`, 
@@ -85,7 +58,7 @@ const UpdateUserPage = () => {
         <React.Fragment>
             <h1>Update User</h1>
             <Form>
-            <Form.Group className="mb-3" controlId="formBasicPassword" onChange={(e)=> setOldpass(e.target.value)}>
+            <Form.Group className="mb-3" controlId="formBasicPassword" onChange={(e)=> setOldPass(e.target.value)}>
                     <Form.Label>Old Password</Form.Label>
                     <Form.Control type="password" placeholder="Old Password" />
                 </Form.Group>
@@ -97,7 +70,7 @@ const UpdateUserPage = () => {
                     <Form.Label>Re-Type Password</Form.Label>
                     <Form.Control type="password" placeholder="New Password" />
                 </Form.Group>
-                <Button variant="primary" type="button" onClick= {() => confirmOldpass()}>
+                <Button variant="primary" type="button" onClick= {() => changepw()}>
                     Submit
                 </Button>
             </Form>
