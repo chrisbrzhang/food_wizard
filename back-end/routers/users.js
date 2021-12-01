@@ -21,7 +21,7 @@ router.get(REQUEST, (_, res) => {
 
 //updates users password
 router.put(ID, async (req, res) => {
-  variables.variables['update_password_put'] += 1
+  variables.variables['update_password_put'][0] += 1
   let valid = await dbFunc.checkUserToken(req.params.id, req.headers.authorization.split(' ')[1]);
 
 
@@ -53,7 +53,7 @@ router.use(ID + SUGGESTED, suggestedRouter);
 // gets all users
 router.get(ROOT, (req, res) => {
   let query = 'SELECT * FROM User;';
-  variables.variables['all_users_get'] += 1;
+  variables.variables['all_users_get'][0] += 1;
 
   con.promise(query)
     .then((result) => {
@@ -73,7 +73,7 @@ router.get(ROOT, (req, res) => {
 // gets a single user
 router.get(ID, async (req, res) => {
   const msg = await dbFunc.checkIfIdExistsInTable(req.params.id, q.tables.USER);
-  variables.variables['user_id_get'] += 1;
+  variables.variables['user_id_get'][0] += 1;
   let output;
   if (msg[0]) {
     let { Password, ...userWithoutPassword } = msg[1];
@@ -93,7 +93,7 @@ router.get(ID, async (req, res) => {
 //gets all users ingredients
 router.get(ID + INGREDIENTS, async (req, res) => {
   let id = req.params.id;
-  variables.variables['all_user_ingredients_get'] += 1
+  variables.variables['all_user_ingredients_get'][0] += 1
 
   const userExists = await dbFunc.checkIfIdExistsInTable(id, q.tables.USER);
   const table = q.tables.USER_INGREDIENT;
@@ -114,7 +114,7 @@ router.get(ID + INGREDIENTS + ID2, async (req, res) => {
   
   let id = req.params.id;
   let id2 = req.params.id2;
-  variables.variables['single_user_ingredient_get'] += 1
+  variables.variables['single_user_ingredient_get'][0] += 1
   const userExists = await dbFunc.checkIfIdExistsInTable(id, q.tables.USER);
   const table = q.tables.USER_INGREDIENT;
   if (userExists[0]) {
@@ -136,7 +136,7 @@ router.get(ID + INGREDIENTS + ID2, async (req, res) => {
 // post single user ingredient
 router.post(ID + INGREDIENTS, async (req, res) => {
   let valid = await dbFunc.checkUserToken(req.params.id, req.headers.authorization.split(' ')[1]);
-  variables.variables['single_user_ingredient_post'] += 1
+  variables.variables['single_user_ingredient_post'][0] += 1
 
   if (valid[0]) {
     let id = req.params.id;
@@ -174,7 +174,7 @@ router.post(ID + INGREDIENTS, async (req, res) => {
 // post list of ingredients as list
 router.post(ID + BATCH, async (req, res) => {
   let valid = await dbFunc.checkUserToken(req.params.id, req.headers.authorization.split(' ')[1]);
-  variables.variables['list_user_ingredients_post'] += 1
+  variables.variables['list_user_ingredients_post'][0] += 1
   if (valid[0]) {
     const id = req.params.id;
     const list = req.body.list;
@@ -218,7 +218,7 @@ router.post(ID + BATCH, async (req, res) => {
 router.delete(ID + INGREDIENTS + ID2, async (req, res) => {
 
   let valid = await dbFunc.checkUserToken(req.params.id, req.headers.authorization.split(' ')[1]);
-  variables.variables['user_ingredient_by_id_delete'] += 1
+  variables.variables['user_ingredient_by_id_delete'][0] += 1
   if (valid[0]) {
     let id = req.params.id;
     let id2 = req.params.id2;
@@ -252,7 +252,7 @@ router.delete(ID + INGREDIENTS + ID2, async (req, res) => {
 
 // gets all users saved recipes
 router.get(ID + SAVED_RECIPES, async (req, res) => {
-  variables.variables['user_saved_recipes_get'] += 1
+  variables.variables['user_saved_recipes_get'][0] += 1
   let id = req.params.id;
   const userExists = await dbFunc.checkIfIdExistsInTable(id, q.tables.USER);
   const table = q.tables.SAVED_RECIPE;
@@ -270,7 +270,7 @@ router.get(ID + SAVED_RECIPES, async (req, res) => {
 
 // gets a single user saved recipe
 router.get(ID + SAVED_RECIPES + ID2, async (req, res) => {
-  variables.variables['single_user_saved_recipe_get'] += 1
+  variables.variables['single_user_saved_recipe_get'][0] += 1
   let id = req.params.id;
   let id2 = req.params.id2;
   const userExists = await dbFunc.checkIfIdExistsInTable(id, q.tables.USER);
@@ -293,7 +293,7 @@ router.get(ID + SAVED_RECIPES + ID2, async (req, res) => {
 // post saves recipe by id
 router.post(ID + SAVED_RECIPES, async (req, res) => {
   let valid = await dbFunc.checkUserToken(req.params.id, req.headers.authorization.split(' ')[1]);
-  variables.variables['save_recipe_by_id_post'] += 1
+  variables.variables['save_recipe_by_id_post'][0] += 1
   if (valid[0]) {
     let id = req.params.id;
     let recipeId = req.body.recipeId
@@ -328,7 +328,7 @@ router.post(ID + SAVED_RECIPES, async (req, res) => {
 });
 // deletes a saved recipe 
 router.delete(ID + SAVED_RECIPES + ID2, async (req, res) => {
-  variables.variables['saved_recipe_delete'] += 1
+  variables.variables['saved_recipe_delete'][0] += 1
   let valid = await dbFunc.checkUserToken(req.params.id, req.headers.authorization.split(' ')[1]);
 
   if (valid[0]) {

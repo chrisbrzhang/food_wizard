@@ -10,7 +10,6 @@ let variables = require('./variables')
 
 const ROOT = '/';
 const tokenDuration = '7d';
-const REQUEST = '/request'
 
 const getToken = (email) => {
   return jwt.sign({ sub: email }, config.secret, { expiresIn: tokenDuration });
@@ -22,17 +21,10 @@ const omitPassword = (user)=> {
 }
 
 
-router.get(REQUEST, (_, res) => {
-  let output = {
-      "login_post": variables['login_post'],
-  }
-  res.send(output);
-});
-
 // post logs user in
 router.post(ROOT, async (req, res) => {
   let json = req.body;
-  variables.variables['login_post'] += 1
+  variables.variables['login_post'][0] += 1
 
   let isValid = v.isValidAuthenticationRequest(json);
   if (!isValid[0]) {

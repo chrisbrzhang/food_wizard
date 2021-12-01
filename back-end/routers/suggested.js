@@ -25,16 +25,10 @@ const router = express.Router({
     mergeParams: true
 });
 // localhost:8888/users/:id/suggested/request
-router.get(REQUEST, (_, res) => {
-    let output = {
-        "suggested_recipe_get": suggested_recipe_get,
-    }
-    res.send(output);
-  });
 
 // gets suggested recipes 
 router.get(ROOT, async (req, res) => {
-    variables.variables['suggested_recipe_get'] += 1
+    variables.variables['suggested_recipe_get'][0] += 1
     let valid = await dbFunc.checkUserToken(req.params.id, req.headers.authorization.split(' ')[1]);
 
     if (valid[0]) {

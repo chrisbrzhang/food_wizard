@@ -6,21 +6,6 @@ const variables = require('./variables')
 
 const ROOT = '/';
 const ID = '/:id';
-let all_recipes_get = 0;
-let one_recipe_get = 0
-let recipe_post = 0
-const REQUEST = "/request"
-
-router.get(REQUEST, (_, res) => {
-    let output = {
-        "all_recipes_get": all_recipes_get,
-        "one_recipe_get": one_recipe_get,
-        "recipe_post": recipe_post
-    }
-    res.send(output);
-  });
-  
-
 
 // gets all recipes
 router.get(ROOT, (_, res) => {
@@ -49,7 +34,7 @@ router.get(ROOT, (_, res) => {
 // gets one recipe by id
 router.get(ID, (req, res) => {
     let query = `SELECT * FROM Recipe WHERE Id = ${req.params.id};`;
-    variables.variables['one_recipe_get'] += 1;
+    variables.variables['one_recipe_get'][0] += 1;
 
     con.query(query, (err, result) => {
         if (err) {
@@ -80,7 +65,7 @@ router.get(ID, (req, res) => {
 
 router.post(ROOT, (req, res) => {
     let json = req.body;
-    variables.variables['recipe_post'] += 1
+    variables.variables['recipe_post'][0] += 1
 
     let isValid = v.isValidRecipe(json);
     if (!isValid[0]) {
