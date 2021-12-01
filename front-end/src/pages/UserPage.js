@@ -152,15 +152,28 @@ const UserPage = () => {
 
     return (
         <React.Fragment>
-          
-            <h1> Welcome {dt.Email} </h1>
+          <div>
+            <h1> Welcome, {dt.Email} </h1>
+            <div>
+            <Form>
+                <Button style={{margin: 5}} variant="primary" type="button" onClick= {() => changePw()}>
+                    Change Password
+                </Button>
+                <Button variant="primary" type="button" onClick= {() => viewSavedRecipes()}>
+                    View Recipes
+                </Button>
+            </Form>
+            </div>
+            <h2 style={{marginTop: 15}}>Ingredients</h2>
+            <p>List an ingredient, click "Add ingredient", and click "Suggest recipes" when finished adding.</p>
             <ol id="list_of_ingredients"/>
             <textarea id="ingredients_area"/>
             <Form>
                 <Button variant="primary" type="button" onClick={()=> add_ingredients()}> Add Ingredient </Button>
-                <Button variant="primary" type="button" onClick={()=> query_ol()}> Suggest recipe </Button>
             </Form>
+            <Button style={{marginTop: 10}} variant="primary" type="button" onClick={()=> query_ol()}> Suggest recipes </Button>
         
+            <h2>Recipes</h2>
             <table id="the_table">
                 <thead>
                     <tr>
@@ -175,7 +188,7 @@ const UserPage = () => {
                             <tr key={item.Id}>
                                 <td> {item.Title} </td>
                                 <td> {item.Description} </td>
-                                <Button variant="primary" type="button" onClick={() => saveRecipe(item.Id)}> Save recipe </Button>
+                                <Button style={{marginBottom: 5}} variant="primary" type="button" onClick={() => saveRecipe(item.Id)}> Save recipe </Button>
                             </tr>
 
                             )
@@ -205,18 +218,7 @@ const UserPage = () => {
                 </tbody>
 
             </table>
-           
-            <Form>
-                <Button variant="primary" type="button" onClick= {() => changePw()}>
-                    Change Password
-                </Button>
-            </Form>
-            <Form>
-                <Button variant="primary" type="button" onClick= {() => viewSavedRecipes()}>
-                    View Recipes
-                </Button>
-            </Form>
-
+        </div>
         </React.Fragment>
     )
 }
