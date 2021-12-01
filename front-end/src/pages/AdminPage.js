@@ -32,8 +32,9 @@ const AdminPage = () => {
     return (
             <React.Fragment>
                 <h1> Admin Page </h1>
-                <table id="the_table">
+                <table id="the_table" style={{tableLayout: 'fixed', width: '50%'}}>
                 <thead>
+                    <th>Method</th>
                     <th>Request URL</th>
                     <th>Number of Requests</th>
                 </thead>
@@ -43,8 +44,9 @@ const AdminPage = () => {
                         .map(([key, value]) => 
                         { return(
                             <tr className="table-row">
-                                <td key={`${key}`}> {key} </td>
-                                <td key={`${value}`}> {value} </td>
+                                <td key={`${key}`}> {value[2]} </td>
+                                <td key={`${value}`}> {value[1]} </td>
+                                <td key={`${value}`}> {value[0]} </td>
                             </tr>
                         )
 
