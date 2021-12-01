@@ -39,6 +39,7 @@ const UpdateUserPage = () => {
             const password = {"password": newpass}
             axios.put(`${URL}/users/${id}`, password, {headers}).then((response)=> {
                 console.log("This is the response", response)   
+                alert("Password Changed")
 
             }).catch((err) => {
                 console.log(err)
