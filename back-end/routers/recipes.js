@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const con = require('../connection');
 const v = require('../helpers/validate');
-const variables = require('./variables')
+const variables = require('./variables');
 
 const ROOT = '/';
 const ID = '/:id';
@@ -10,7 +10,7 @@ const ID = '/:id';
 // gets all recipes
 router.get(ROOT, (_, res) => {
     let query = 'SELECT * FROM Recipe;';
-    variables['all_recipes_get'] += 1;
+    variables.variables['all_recipes_get'][0] += 1;
 
     con.query(query, (err, result) => {
         if (err) {

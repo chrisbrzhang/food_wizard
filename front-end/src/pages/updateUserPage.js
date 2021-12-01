@@ -4,7 +4,7 @@ import axios from "axios";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
 
-const URL = 'http://localhost:8888'
+const URL = 'https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1'
 
 const UpdateUserPage = () => {
     const location = useLocation();

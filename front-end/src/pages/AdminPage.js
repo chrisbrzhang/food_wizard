@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router";
 
-const URL = 'http://localhost:8888';
+const URL = 'https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1';
 
 const AdminPage = () => {
     const location = useLocation();
@@ -34,9 +34,8 @@ const AdminPage = () => {
                 <h1> Admin Page </h1>
                 <table id="the_table">
                 <thead>
-                    <th> Method </th>
-                    <th> Request URL </th>
-                    <th> Number of Requests </th>
+                    <th>Request URL</th>
+                    <th>Number of Requests</th>
                 </thead>
                 <tbody>
                     {
@@ -44,9 +43,8 @@ const AdminPage = () => {
                         .map(([key, value]) => 
                         { return(
                             <tr className="table-row">
-                                <td key={`${value[2]}`}> {value[2]} </td>
-                                <td key={`${value[1]}`}> {value[1]} </td>
-                                <td key={`${value[0]}`}> {value[0]} </td>
+                                <td key={`${key}`}> {key} </td>
+                                <td key={`${value}`}> {value} </td>
                             </tr>
                         )
 

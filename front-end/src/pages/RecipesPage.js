@@ -5,7 +5,7 @@ import axios from "axios";
 import { render } from "@testing-library/react";
 
 
-const URL = 'http://localhost:8888'
+const URL = 'https://jakobandjonny.a2hosted.com/COMP4537/TermProject/api/v1'
 
 
 
