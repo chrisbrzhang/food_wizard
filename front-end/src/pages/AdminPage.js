@@ -34,8 +34,9 @@ const AdminPage = () => {
                 <h1> Admin Page </h1>
                 <table id="the_table">
                 <thead>
-                    <th>Request URL</th>
-                    <th>Number of Requests</th>
+                    <th> Method </th>
+                    <th> Request URL </th>
+                    <th> Number of Requests </th>
                 </thead>
                 <tbody>
                     {
@@ -43,8 +44,9 @@ const AdminPage = () => {
                         .map(([key, value]) => 
                         { return(
                             <tr className="table-row">
-                                <td key={`${key}`}> {key} </td>
-                                <td key={`${value}`}> {value} </td>
+                                <td key={`${value[2]}`}> {value[2]} </td>
+                                <td key={`${value[1]}`}> {value[1]} </td>
+                                <td key={`${value[0]}`}> {value[0]} </td>
                             </tr>
                         )
 
