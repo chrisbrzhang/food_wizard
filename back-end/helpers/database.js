@@ -81,7 +81,6 @@ exports.updateUser = async (id, newpassword, table) => {
     bcrypt.hash(newpassword, SALTS, async (_, hash) => {
       let msg = [false, ""]
       console.log(hash, id);
-  
       const query = `UPDATE ${table} SET Password='${hash}' WHERE Id=${id};`;
       console.log(query);
       await con.promise(query)

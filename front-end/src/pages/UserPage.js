@@ -12,7 +12,6 @@ const UserPage = () => {
     const location = useLocation();
     const [dt, setDt] = useState([])
     const [recipe, setRecipe] = useState([]);
-    // to make use of the token do data.token
     const {id} = useParams();
     const navigate = useNavigate();
     const [ingredients, setIngredients] = useState([])

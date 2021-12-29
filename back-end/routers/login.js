@@ -20,7 +20,6 @@ const omitPassword = (user)=> {
   return userWithoutPassword;
 }
 
-
 // post logs user in
 router.post(ROOT, async (req, res) => {
   let json = req.body;
